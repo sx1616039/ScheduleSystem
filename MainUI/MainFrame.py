@@ -10,6 +10,14 @@ class SchedulingSystem(wx.Frame):
         wx.Frame.__init__(self, parent, id=wx.ID_ANY, title=u"不确定条件下生产线智能调度平台",
                           style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
         self.APP_EXIT = 0
+        self.APP_OPEN = 1
+        self.APP_CUT = 2
+        self.APP_COPY = 3
+        self.APP_CREATE_ORDER = 10
+        self.APP_OPEN_ORDER = 11
+        self.APP_CUT = 12
+        self.APP_COPY = 13
+
         self.main_panel = None
         self.statusBar = None
         if params is None:
@@ -18,31 +26,50 @@ class SchedulingSystem(wx.Frame):
         self.SetSizeHints((1280, 720), wx.DefaultSize)
         self.Maximize(True)
         self.UpdateUI = UpdateUI
-        self.InitUI(params)
+        self.init_ui(params)
 
-    def InitUI(self, params):
-        menuBar = wx.MenuBar()  # 生成菜单栏
-        fileMenu = wx.Menu()  # 文件菜单
+    def init_ui(self, params):
+        menu_bar = wx.MenuBar()  # 生成菜单栏
 
-        quit = wx.MenuItem(fileMenu, self.APP_EXIT, "Quit")  # 生成一个菜单项
-        # quit.SetBitmap(wx.Bitmap("quit.ico"))  # 给菜单项前面加个小图标
-        fileMenu.AppendItem(quit)  # 把菜单项加入到菜单中
-        menuBar.Append(fileMenu, "&File")  # 把菜单加入到菜单栏中
-
+        menu_file = wx.Menu()  # 文件菜单
+        open_file = wx.MenuItem(menu_file, self.APP_OPEN, "打开")  # 生成一个菜单项
+        quit_sys = wx.MenuItem(menu_file, self.APP_EXIT, "退出")  # 生成一个菜单项
+        quit_sys.SetBitmap(wx.Bitmap("icon/quit.ico"))  # 给菜单项前面加个小图标
+        menu_file.AppendItem(open_file)  # 把菜单项加入到菜单中
+        menu_file.AppendItem(quit_sys)
+        menu_bar.Append(menu_file, "&文件")  # 把菜单加入到菜单栏中
         self.Bind(wx.EVT_MENU, self.OnQuit, id=self.APP_EXIT)  # 给菜单项加入事件处理
-        editMenu = wx.Menu()  # 编辑菜单
-        back = wx.MenuItem(editMenu, text="Cut")  # 生成一个菜单项
-        # back.SetBitmap(wx.Bitmap("quit.ico"))  # 给菜单项前面加个小图标
-        editMenu.AppendItem(back)  # 把菜单项加入到菜单中
-        menuBar.Append(editMenu, "&Edit")  # 把菜单加入到菜单栏中
 
-        trainMenu = wx.Menu()  # 训练菜单
-        train = wx.MenuItem(trainMenu, text="train")  # 生成一个菜单项
+        menu_edit = wx.Menu()  # 编辑菜单
+        cut = wx.MenuItem(menu_edit, self.APP_CUT, text="剪切")  # 生成一个菜单项
+        copy = wx.MenuItem(menu_edit, self.APP_COPY, text="复制")
+        menu_edit.AppendItem(cut)  # 把菜单项加入到菜单中
+        menu_edit.AppendItem(copy)
+        menu_bar.Append(menu_edit, "&编辑")  # 把菜单加入到菜单栏中
+
+        menu_order_manage = wx.Menu()  # 训练菜单
+        order_create = wx.MenuItem(menu_order_manage, self.APP_CREATE_ORDER, text="创建订单")  # 生成一个菜单项
+        order_open = wx.MenuItem(menu_order_manage, self.APP_OPEN_ORDER, text="打开订单")  # 生成一个菜单项
+        menu_order_manage.AppendItem(order_create)  # 把菜单项加入到菜单中
+        menu_order_manage.AppendItem(order_open)  # 把菜单项加入到菜单中
+        menu_bar.Append(menu_order_manage, "&订单管理")  # 把菜单加入到菜单栏中
+
+        menu_train = wx.Menu()  # 训练菜单
+        train = wx.MenuItem(menu_train, text="train")  # 生成一个菜单项
         # train.SetBitmap(wx.Bitmap("quit.ico"))  # 给菜单项前面加个小图标
-        trainMenu.AppendItem(train)  # 把菜单项加入到菜单中
-        menuBar.Append(trainMenu, "&Train")  # 把菜单加入到菜单栏中
-        trainMenu = wx.Menu()  # 训练菜单
-        self.SetMenuBar(menuBar)  # 把菜单栏加入到Frame框架中
+        menu_train.AppendItem(train)  # 把菜单项加入到菜单中
+        menu_bar.Append(menu_train, "&模型训练")  # 把菜单加入到菜单栏中
+
+        menu_optimization = wx.Menu()  # 优化菜单
+        optimization = wx.MenuItem(menu_train, text="train")  # 生成一个菜单项
+        menu_bar.Append(menu_optimization, "&模型优化")  # 把菜单加入到菜单栏中
+        self.SetMenuBar(menu_bar)  # 把菜单栏加入到Frame框架中
+
+        menu_visualization = wx.Menu()  # 训练菜单
+        visualization = wx.MenuItem(menu_train, text="train")  # 生成一个菜单项
+        # train.SetBitmap(wx.Bitmap("quit.ico"))  # 给菜单项前面加个小图标
+        menu_visualization.AppendItem(visualization)  # 把菜单项加入到菜单中
+        menu_bar.Append(menu_visualization, "&可视化")  # 把菜单加入到菜单栏中
         # 最底层panel
         self.main_panel = wx.Panel(self, wx.ID_ANY, wx.DefaultPosition,
                                    wx.DefaultSize, wx.TAB_TRAVERSAL)
