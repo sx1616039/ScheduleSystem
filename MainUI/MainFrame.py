@@ -3,20 +3,27 @@
 import wx
 import datetime
 
+from MainUI import OrderManagePanel, TrainPanel, VisualizationPanel, OptPanel
+from MainUI.NavTree import NavTree
+from  ShowNotebook import ShowNotebook
 
-# 主界面
+
 class SchedulingSystem(wx.Frame):
     def __init__(self, parent=None, id=-1, UpdateUI=None, params=None):
         wx.Frame.__init__(self, parent, id=wx.ID_ANY, title=u"不确定条件下生产线智能调度平台",
                           style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
-        self.APP_EXIT = 0
-        self.APP_OPEN = 1
-        self.APP_CUT = 2
-        self.APP_COPY = 3
-        self.APP_CREATE_ORDER = 10
-        self.APP_OPEN_ORDER = 11
-        self.APP_CUT = 12
-        self.APP_COPY = 13
+        self.APP_FILE_EXIT = 0
+        self.APP_FILE_OPEN = 1
+        self.APP_EDIT_CUT = 10
+        self.APP_EDIT_COPY = 11
+        self.APP_EDIT_PASTE = 12
+        self.APP_ORDER_CREATE = 20
+        self.APP_ORDER_OPEN = 21
+        self.APP_RUN = 30
+        self.APP_RUN_CONFIG = 31
+        self.APP_TRAIN_CONFIG = 40
+        self.APP_OPT_CONFIG = 50
+        self.APP_VISUAL_REWARD = 60
 
         self.main_panel = None
         self.statusBar = None
@@ -29,59 +36,56 @@ class SchedulingSystem(wx.Frame):
         self.init_ui(params)
 
     def init_ui(self, params):
-        menu_bar = wx.MenuBar()  # 生成菜单栏
-
-        menu_file = wx.Menu()  # 文件菜单
-        open_file = wx.MenuItem(menu_file, self.APP_OPEN, "打开")  # 生成一个菜单项
-        quit_sys = wx.MenuItem(menu_file, self.APP_EXIT, "退出")  # 生成一个菜单项
-        quit_sys.SetBitmap(wx.Bitmap("icon/quit.ico"))  # 给菜单项前面加个小图标
-        menu_file.AppendItem(open_file)  # 把菜单项加入到菜单中
-        menu_file.AppendItem(quit_sys)
-        menu_bar.Append(menu_file, "&文件")  # 把菜单加入到菜单栏中
-        self.Bind(wx.EVT_MENU, self.OnQuit, id=self.APP_EXIT)  # 给菜单项加入事件处理
-
-        menu_edit = wx.Menu()  # 编辑菜单
-        cut = wx.MenuItem(menu_edit, self.APP_CUT, text="剪切")  # 生成一个菜单项
-        copy = wx.MenuItem(menu_edit, self.APP_COPY, text="复制")
-        menu_edit.AppendItem(cut)  # 把菜单项加入到菜单中
-        menu_edit.AppendItem(copy)
-        menu_bar.Append(menu_edit, "&编辑")  # 把菜单加入到菜单栏中
-
-        menu_order_manage = wx.Menu()  # 训练菜单
-        order_create = wx.MenuItem(menu_order_manage, self.APP_CREATE_ORDER, text="创建订单")  # 生成一个菜单项
-        order_open = wx.MenuItem(menu_order_manage, self.APP_OPEN_ORDER, text="打开订单")  # 生成一个菜单项
-        menu_order_manage.AppendItem(order_create)  # 把菜单项加入到菜单中
-        menu_order_manage.AppendItem(order_open)  # 把菜单项加入到菜单中
-        menu_bar.Append(menu_order_manage, "&订单管理")  # 把菜单加入到菜单栏中
-
-        menu_train = wx.Menu()  # 训练菜单
-        train = wx.MenuItem(menu_train, text="train")  # 生成一个菜单项
-        # train.SetBitmap(wx.Bitmap("quit.ico"))  # 给菜单项前面加个小图标
-        menu_train.AppendItem(train)  # 把菜单项加入到菜单中
-        menu_bar.Append(menu_train, "&模型训练")  # 把菜单加入到菜单栏中
-
-        menu_optimization = wx.Menu()  # 优化菜单
-        optimization = wx.MenuItem(menu_train, text="train")  # 生成一个菜单项
-        menu_bar.Append(menu_optimization, "&模型优化")  # 把菜单加入到菜单栏中
-        self.SetMenuBar(menu_bar)  # 把菜单栏加入到Frame框架中
-
-        menu_visualization = wx.Menu()  # 训练菜单
-        visualization = wx.MenuItem(menu_train, text="train")  # 生成一个菜单项
-        # train.SetBitmap(wx.Bitmap("quit.ico"))  # 给菜单项前面加个小图标
-        menu_visualization.AppendItem(visualization)  # 把菜单项加入到菜单中
-        menu_bar.Append(menu_visualization, "&可视化")  # 把菜单加入到菜单栏中
         # 最底层panel
         self.main_panel = wx.Panel(self, wx.ID_ANY, wx.DefaultPosition,
                                    wx.DefaultSize, wx.TAB_TRAVERSAL)
-        # 最底层panel垂直布局
+        # # 整个模块布局,最底层panel垂直布局
         main_layout = wx.BoxSizer(wx.VERTICAL)
         self.main_panel.SetSizer(main_layout)
 
+        # 右上角用户panel
+        self.userPanel = wx.Panel(self.main_panel, wx.ID_ANY, wx.DefaultPosition,
+                                  (200, 28), wx.TAB_TRAVERSAL)
+        #         self.userPanel.SetBackgroundColour('yellow')
+        # 用户显示栏
+        self.userText = wx.StaticText(self.userPanel, wx.ID_ANY, "Administrator",
+                                      (0, 4), (-1, 28), 0)
+        self.userText.SetFont(wx.Font(10.5, wx.ROMAN, wx.NORMAL, wx.NORMAL, False))
+        # 注销按钮
+        self.logoffBtn = wx.Button(self.userPanel, wx.ID_ANY, u"注 销",
+                                   (100, 3), (-1, 26), 0)
+        self.logoffBtn.SetBitmap(wx.Bitmap('icon/logoff.ico'))
+        self.logoffBtn.Bind(wx.EVT_BUTTON, self.Logoff)
+
         # 上方导航页签
-        self.statusBar = wx.Notebook(self.main_panel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0)
-        self.statusBar.SetPadding(wx.Size(20, 5))
-        self.statusBar.SetFont(wx.Font(12, wx.ROMAN, wx.NORMAL, wx.NORMAL, False))
-        main_layout.Add(self.statusBar, 1, wx.EXPAND | wx.ALL, 5)
+        self.NaviPage = wx.Notebook(self.main_panel, wx.ID_ANY,
+                                     wx.DefaultPosition, wx.DefaultSize, 0)
+        self.NaviPage.SetPadding(wx.Size(20, 5))
+        self.NaviPage.SetFont(wx.Font(12, wx.ROMAN, wx.NORMAL, wx.NORMAL, False))
+        main_layout.Add(self.NaviPage, 1, wx.EXPAND | wx.ALL, 5)
+
+        # 每个页签下加入各功能模块panel
+        self.panel_order_management = OrderManagePanel.OrderManagePanel(self.NaviPage)
+        self.panel_train = TrainPanel.TrainPanel(self.NaviPage)
+        self.panel_opt = OptPanel.OptPanel(self.NaviPage)
+        self.panel_visualization = VisualizationPanel.VisualizationPanel(self.NaviPage)
+
+        self.NaviPage.AddPage(self.panel_order_management, u"订单管理", True)
+        self.NaviPage.AddPage(self.panel_train, u"模型训练", False)
+        self.NaviPage.AddPage(self.panel_opt, u"模型优化", False)
+        self.NaviPage.AddPage(self.panel_visualization, u"可视化", False)
+
+        # 状态栏
+        self.status_bar = self.CreateStatusBar()
+        # 将状态栏分割为2个区域,比例为3:1
+        self.status_bar.SetFieldsCount(2)
+        self.status_bar.SetStatusWidths([-3, -1])
+        self.status_bar.SetStatusText(" Version Beta 0.0.1\t", 0)
+        nowTime = datetime.datetime.now().strftime('%Y-%m-%d')  # 现在日期
+        self.status_bar.SetStatusText(nowTime, 1)
+
+        self.main_panel.Layout()
+        self.main_panel.Bind(wx.EVT_SIZE, self.OnReSize)
         self.Show(True)  # 显示框架
 
     def OnQuit(self, e):  # 自定义函数　响应菜单项　　
