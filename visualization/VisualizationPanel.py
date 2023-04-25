@@ -4,8 +4,9 @@ from __future__ import division
 
 import time
 import wx
-import NavTree
-import ShowNotebook
+
+from MainUI import NavTree
+from visualization import ShowNotebook
 
 
 class VisualizationPanel(wx.Panel):
@@ -65,13 +66,14 @@ class VisualizationPanel(wx.Panel):
         vBoxSizer.Add(calib_panel, 0, wx.EXPAND | wx.ALL, 5)
         vBoxSizer.Add(tree_panel, 1, wx.EXPAND | wx.ALL, 5)
         self.SetSizer(vBoxSizer)
+        self.order_path = ''
 
     def is_selected(self):
         try:
-            '''获取校准模型的id'''
-            CalibrationPanel.selected_id = self.navTree.GetItemData(self.navTree.GetSelection())
-            if CalibrationPanel.selected_id == 0 or CalibrationPanel.selected_id == 1: # 区分各个节点
-                raise NameError('...')
+            print(self.navTree.GetItemData(self.navTree.GetSelection()))
+            if os.path.exists(self.navTree.GetItemData(self.navTree.GetSelection())):
+                self.order_path = self.navTree.GetItemData(self.navTree.GetSelection())
+                return True
         except:
             dlg = wx.MessageDialog(None, message='请先选择一个仿真模型', caption='warning')
             dlg.ShowModal()

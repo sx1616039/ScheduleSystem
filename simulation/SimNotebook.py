@@ -4,14 +4,9 @@ from __future__ import division
 from wx import aui
 import wx
 import wx.grid
-import MetaPanel
-import OptPanel
-import CalibrationPanel as cp
-import ModelReviewPanel
-import ExplorePanel
 
 
-class ShowNotebook(aui.AuiNotebook):
+class SimNotebook(aui.AuiNotebook):
     
     def __init__(self, parent=None):
         

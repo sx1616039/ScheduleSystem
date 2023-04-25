@@ -3,6 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="d15d9adc-18a2-498f-84b9-761d8f9386e9" name="Changes" comment="structured">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainUI/TreeNotebook.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_optimization/OptNotebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_optimization/OptNotebook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_optimization/OptPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_optimization/OptPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_training/TrainNotebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_training/TrainNotebook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_training/TrainPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_training/TrainPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order_management/OrderManagePanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/OrderManagePanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simulation/SimNotebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/simulation/SimNotebook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simulation/SimulationPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/simulation/SimulationPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/VisualizationPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualization/VisualizationPanel.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +30,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Uncertainty" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
@@ -103,7 +112,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682389731374</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="structured">
+      <created>1682405890992</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1682405890992</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

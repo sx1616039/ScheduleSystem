@@ -5,7 +5,8 @@ from __future__ import division
 import time
 import wx
 
-from MainUI import NavTree, ShowNotebook
+from MainUI import NavTree
+from model_optimization import OptNotebook
 
 
 class OptPanel(wx.Panel):
@@ -52,12 +53,12 @@ class OptPanel(wx.Panel):
         # 下方导航树及展示界面panel
         tree_panel = wx.Panel(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
         self.navTree = NavTree.NavTree(tree_panel)
-        self.showNotebook = ShowNotebook.ShowNotebook(tree_panel)
+        self.optNotebook = OptNotebook.OptNotebook(tree_panel)
 
         # tree_panel布局
         hBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
         hBoxSizer.Add(self.navTree, 1, wx.ALL | wx.EXPAND, 5)
-        hBoxSizer.Add(self.showNotebook, 4, wx.EXPAND | wx.ALL, 5)
+        hBoxSizer.Add(self.optNotebook, 4, wx.EXPAND | wx.ALL, 5)
         tree_panel.SetSizer(hBoxSizer)
 
         # 整个模块布局
@@ -65,12 +66,16 @@ class OptPanel(wx.Panel):
         vBoxSizer.Add(calib_panel, 0, wx.EXPAND | wx.ALL, 5)
         vBoxSizer.Add(tree_panel, 1, wx.EXPAND | wx.ALL, 5)
         self.SetSizer(vBoxSizer)
+        self.order_path = ''
 
     def is_selected(self):
         try:
             print(self.navTree.GetItemData(self.navTree.GetSelection()))
-            # if CalibrationPanel.selected_id == 0 or CalibrationPanel.selected_id == 1: # 区分各个节点
-            #     raise NameError('...')
+            if os.path.exists(self.navTree.GetItemData(self.navTree.GetSelection())):
+                self.order_path = self.navTree.GetItemData(self.navTree.GetSelection())
+                return True
+            else:
+                return False
         except:
             dlg = wx.MessageDialog(None, message='请先选择一个仿真模型', caption='warning')
             dlg.ShowModal()
@@ -79,16 +84,16 @@ class OptPanel(wx.Panel):
 
     def on_button_model(self, event):
         if self.is_selected():
-            self.showNotebook.show_modeling_page()
+            self.optNotebook.show_modeling_page()
 
     def on_button_opt(self, event):
         if self.is_selected():
-            self.showNotebook.show_opt_page()
+            self.optNotebook.show_opt_page()
 
     def on_button_view(self, event):
         if self.is_selected():
-            self.showNotebook.show_view_page()
+            self.optNotebook.show_view_page()
 
     def on_button_explore(self, event):
         if self.is_selected():
-            self.showNotebook.show_explore_page()
+            self.optNotebook.show_explore_page()

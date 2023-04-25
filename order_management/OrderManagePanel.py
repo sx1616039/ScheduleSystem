@@ -2,15 +2,15 @@
 
 from __future__ import division
 
+import os
 import time
 import wx
 
-from MainUI import NavTree, ShowNotebook
+from MainUI import NavTree
+from order_management import OrderNotebook
 
 
 class OrderManagePanel(wx.Panel):
-    selected_id = 0
-
     def __init__(self, parent=None):
         wx.Panel.__init__(self, parent, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
 
@@ -59,12 +59,12 @@ class OrderManagePanel(wx.Panel):
         # 下方导航树及展示界面panel
         tree_panel = wx.Panel(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
         self.navTree = NavTree.NavTree(tree_panel)
-        self.showNotebook = ShowNotebook.ShowNotebook(tree_panel)
+        self.orderNotebook = OrderNotebook.OrderNotebook(tree_panel)
 
         # tree_panel布局
         hBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
         hBoxSizer.Add(self.navTree, 1, wx.ALL | wx.EXPAND, 5)
-        hBoxSizer.Add(self.showNotebook, 4, wx.EXPAND | wx.ALL, 5)
+        hBoxSizer.Add(self.orderNotebook, 4, wx.EXPAND | wx.ALL, 5)
         tree_panel.SetSizer(hBoxSizer)
 
         # 整个模块布局
@@ -72,10 +72,16 @@ class OrderManagePanel(wx.Panel):
         vBoxSizer.Add(calib_panel, 0, wx.EXPAND | wx.ALL, 5)
         vBoxSizer.Add(tree_panel, 1, wx.EXPAND | wx.ALL, 5)
         self.SetSizer(vBoxSizer)
+        self.order_path = ''
 
     def is_selected(self):
         try:
             print(self.navTree.GetItemData(self.navTree.GetSelection()))
+            if os.path.exists(self.navTree.GetItemData(self.navTree.GetSelection())):
+                self.order_path = self.navTree.GetItemData(self.navTree.GetSelection())
+                return True
+            else:
+                return False
         except:
             dlg = wx.MessageDialog(None, message='请先选择一个订单', caption='提示')
             dlg.ShowModal()
@@ -84,11 +90,11 @@ class OrderManagePanel(wx.Panel):
 
     def on_button_model(self, event):
         if self.is_selected():
-            self.showNotebook.show_modeling_page()
+            self.orderNotebook.show_modeling_page()
 
     def on_button_open(self, event):
         if self.is_selected():
-            self.showNotebook.show_opt_page()
+            self.orderNotebook.show_opt_page()
 
     def on_button_view(self, event):
         if self.is_selected():
