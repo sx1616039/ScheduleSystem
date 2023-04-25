@@ -3,9 +3,11 @@
 import wx
 import datetime
 
-from MainUI import OrderManagePanel, TrainPanel, VisualizationPanel, OptPanel
-from MainUI.NavTree import NavTree
-from  ShowNotebook import ShowNotebook
+from model_optimization import OptPanel
+from model_training import TrainPanel
+from order_management import OrderManagePanel
+from simulation import SimulationPanel
+from visualization import VisualizationPanel
 
 
 class SchedulingSystem(wx.Frame):
@@ -42,21 +44,16 @@ class SchedulingSystem(wx.Frame):
         # # 整个模块布局,最底层panel垂直布局
         main_layout = wx.BoxSizer(wx.VERTICAL)
         self.main_panel.SetSizer(main_layout)
-
         # 右上角用户panel
-        self.userPanel = wx.Panel(self.main_panel, wx.ID_ANY, wx.DefaultPosition,
-                                  (200, 28), wx.TAB_TRAVERSAL)
-        #         self.userPanel.SetBackgroundColour('yellow')
+        x, y = self.GetSize()
+        self.userPanel = wx.Panel(self.main_panel, wx.ID_ANY, (x-200, 0), (200, 30), wx.TAB_TRAVERSAL)
         # 用户显示栏
-        self.userText = wx.StaticText(self.userPanel, wx.ID_ANY, "Administrator",
-                                      (0, 4), (-1, 28), 0)
-        self.userText.SetFont(wx.Font(10.5, wx.ROMAN, wx.NORMAL, wx.NORMAL, False))
+        self.userText = wx.StaticText(self.userPanel, wx.ID_ANY, "Administrator", (0, 10), (-1, 30), 0)
+        self.userText.SetFont(wx.Font(11, wx.ROMAN, wx.NORMAL, wx.NORMAL, False))
         # 注销按钮
-        self.logoffBtn = wx.Button(self.userPanel, wx.ID_ANY, u"注 销",
-                                   (100, 3), (-1, 26), 0)
+        self.logoffBtn = wx.Button(self.userPanel, wx.ID_ANY, u"注 销", (100, 3), (-1, 28), 0)
         self.logoffBtn.SetBitmap(wx.Bitmap('icon/logoff.ico'))
         self.logoffBtn.Bind(wx.EVT_BUTTON, self.Logoff)
-
         # 上方导航页签
         self.NaviPage = wx.Notebook(self.main_panel, wx.ID_ANY,
                                      wx.DefaultPosition, wx.DefaultSize, 0)
@@ -66,11 +63,13 @@ class SchedulingSystem(wx.Frame):
 
         # 每个页签下加入各功能模块panel
         self.panel_order_management = OrderManagePanel.OrderManagePanel(self.NaviPage)
+        self.panel_simulation = SimulationPanel.SimulationPanel(self.NaviPage)
         self.panel_train = TrainPanel.TrainPanel(self.NaviPage)
         self.panel_opt = OptPanel.OptPanel(self.NaviPage)
         self.panel_visualization = VisualizationPanel.VisualizationPanel(self.NaviPage)
 
         self.NaviPage.AddPage(self.panel_order_management, u"订单管理", True)
+        self.NaviPage.AddPage(self.panel_simulation, u"仿真运行", False)
         self.NaviPage.AddPage(self.panel_train, u"模型训练", False)
         self.NaviPage.AddPage(self.panel_opt, u"模型优化", False)
         self.NaviPage.AddPage(self.panel_visualization, u"可视化", False)
@@ -91,66 +90,12 @@ class SchedulingSystem(wx.Frame):
     def OnQuit(self, e):  # 自定义函数　响应菜单项　　
         self.Close()
 
-
-        # 每个页签下加入各功能模块panel
-        # self.model_panel = ModelUi.ModelPanel(self.statusBar)
-        # # self.model_panel2 = ParamUi.ParamPanel(self.statusBar)
-        #
-        # # self.model_panel2 = SpreadUi.SpreadPanel(self.statusBar)
-        # self.model_panel2 = SpeardPanel.SpreadPanel(self.statusBar)
-        # # self.model_panel3 = UncertaintyPropagationUi.UncertaintyPropagationPanel(self.statusBar)
-        # # self.model_panel3 = XY_Panel.XY_Panel(self.statusBar)
-        #
-        # self.model_panel4 = ValidateUi.ValidatePanel(self.statusBar)
-        # self.model_panel5 = CalibrationPanel.CalibrationPanel(self.statusBar)
-        # self.model_panel6 = SystemManageUi.SystemManegePanel(self.statusBar)
-        # # self.model_panel7 = DecisionUi.DecisionPanel(self.statusBar)
-        # self.model_panel8 = UncertaintyUI.UncertaintyPanel(self.statusBar)
-        # self.welcome = wx.Panel(self.statusBar, wx.ID_ANY, wx.DefaultPosition,
-        #                            wx.DefaultSize, wx.TAB_TRAVERSAL)
-
-        # self.statusBar.AddPage(self.model_panel, u"模型管理", True)
-        # self.statusBar.AddPage(self.model_panel2, u"建模传播", False)
-        # # self.statusBar.AddPage(self.model_panel3, u"不确定性传播", False)
-        # self.statusBar.AddPage(self.model_panel8, u"建模传播", False)
-        # self.statusBar.AddPage(self.model_panel4, u"验证分析", False)
-        # self.statusBar.AddPage(self.model_panel5, u"智能校准", False)
-        # self.statusBar.AddPage(self.model_panel6, u"系统管理", False)
-        # # self.statusBar.AddPage(self.welcome, u"欢迎使用本系统", True)
-
-        # self.statusBar.AddPage(self.model_panel, u"模型管理", True)
-        # self.statusBar.AddPage(self.model_panel2, u"数据收集", False)
-        # # self.statusBar.AddPage(self.model_panel4, u"决策生成", False)
-        # self.statusBar.AddPage(self.model_panel7, u"决策生成", False)
-        # self.statusBar.AddPage(self.model_panel5, u"智能校准", False)
-        # self.statusBar.AddPage(self.model_panel6, u"系统管理", False)
-
-        # self.main_panel.Layout()
-        # self.main_panel.Bind(wx.EVT_SIZE, self.OnReSize)
-        #
-        # nowTime = datetime.datetime.now().strftime('%Y-%m-%d')  # 现在日期
-        #
-        # # 状态栏
-        # self.m_statusBar = self.CreateStatusBar()
-        # # 将状态栏分割为2个区域,比例为3:1
-        # self.m_statusBar.SetFieldsCount(2)
-        # self.m_statusBar.SetStatusWidths([-3, -1])
-        # self.m_statusBar.SetStatusText(" Version Beta 0.0.1\t", 0)
-        # self.m_statusBar.SetStatusText(nowTime, 1)
-
-    #         bSizerforwholepanel.Fit(self.main_panel)
-
-    # 欢迎页面
-    # self.Welcome()
-
     def OnReSize(self, event):
-        print("hello")
         # 在绑定的size事件中使右上角用户panel右对齐
-        # x, y = self.GetSize()
-        # w, h = self.userPanel.GetSize()
-        # self.userPanel.SetPosition((x - w - 25, 0))
-        # self.Refresh()
-        # self.main_panel.Layout()
+        x, y = self.GetSize()
+        self.userPanel.SetPosition((x - 220, 0))
+        self.Refresh()
+        self.main_panel.Layout()
 
     def Logoff(self, event):
         # 注销操作
