@@ -20,11 +20,11 @@ class OrderManagePanel(wx.Panel):
         calib_panel.SetSizer(tab_sizer)
 
         font_button = wx.Font(11, wx.ROMAN, wx.NORMAL, wx.NORMAL, False)
-        self.btn_model = wx.Button(calib_panel, wx.ID_ANY, u"创建订单",
+        self.btn_create = wx.Button(calib_panel, wx.ID_ANY, u"创建订单",
                                 wx.DefaultPosition, wx.DefaultSize, 0)
-        self.btn_model.SetFont(font_button)
-        self.btn_model.SetBitmap(wx.Bitmap('icon/metamodel.ico'))
-        self.Bind(wx.EVT_BUTTON, self.on_button_model, self.btn_model)
+        self.btn_create.SetFont(font_button)
+        self.btn_create.SetBitmap(wx.Bitmap('icon/metamodel.ico'))
+        self.Bind(wx.EVT_BUTTON, self.on_button_create, self.btn_create)
 
         self.btn_open = wx.Button(calib_panel, wx.ID_ANY, u"打开订单",
                                  wx.DefaultPosition, wx.DefaultSize, 0)
@@ -50,7 +50,7 @@ class OrderManagePanel(wx.Panel):
         self.btn_uncertain_order.SetBitmap(wx.Bitmap('icon/data.ico'))
         self.Bind(wx.EVT_BUTTON, self.on_button_explore, self.btn_uncertain_order)
 
-        tab_sizer.Add(self.btn_model, 0, wx.ALL, 5)
+        tab_sizer.Add(self.btn_create, 0, wx.ALL, 5)
         tab_sizer.Add(self.btn_open, 0, wx.ALL, 5)
         tab_sizer.Add(self.btn_view, 0, wx.ALL, 5)
         tab_sizer.Add(self.btn_explore, 0, wx.ALL, 5)
@@ -76,25 +76,25 @@ class OrderManagePanel(wx.Panel):
 
     def is_selected(self):
         try:
-            print(self.navTree.GetItemData(self.navTree.GetSelection()))
-            if os.path.exists(self.navTree.GetItemData(self.navTree.GetSelection())):
+            if not os.path.isdir(self.navTree.GetItemData(self.navTree.GetSelection())):
+                print(self.navTree.GetItemData(self.navTree.GetSelection()))
                 self.order_path = self.navTree.GetItemData(self.navTree.GetSelection())
                 return True
             else:
+                dlg = wx.MessageDialog(None, message='请先选择一个订单', caption='提示')
+                dlg.ShowModal()
                 return False
         except:
             dlg = wx.MessageDialog(None, message='请先选择一个订单', caption='提示')
             dlg.ShowModal()
             return False
-        return True
 
-    def on_button_model(self, event):
-        if self.is_selected():
-            self.orderNotebook.show_modeling_page()
+    def on_button_create(self, event):
+        self.orderNotebook.show_create_page()
 
     def on_button_open(self, event):
         if self.is_selected():
-            self.orderNotebook.show_opt_page()
+            self.orderNotebook.show_open_page(self.order_path)
 
     def on_button_view(self, event):
         if self.is_selected():
