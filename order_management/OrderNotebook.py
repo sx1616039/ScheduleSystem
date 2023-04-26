@@ -7,7 +7,7 @@ import os
 from wx import aui
 import wx
 import wx.grid
-from order_management import OpenPanel
+from order_management import OpenPanel, EditPanel
 from order_management import CreatePanel
 
 
@@ -45,11 +45,11 @@ class OrderNotebook(aui.AuiNotebook):
             page_title = "%s: %s" % (u" 打开订单", model_name)
             self.AddPage(new_panel, page_title, True, wx.NullBitmap)
 
-    def show_view_page(self, order_path):
+    def show_edit_page(self, order_path):
         if self.is_new_page(flag=2):
-            new_panel = OpenPanel.OpenPanel(self, order_path)
+            new_panel = EditPanel.EditPanel(self, order_path)
             model_name = os.path.basename(order_path).split('.')[0]
-            page_title = "%s%s" % (model_name[0][0], u" 打开订单")
+            page_title = "%s: %s" % (u" 修改订单", model_name)
             self.AddPage(new_panel, page_title, True, wx.NullBitmap)
 
     def show_explore_page(self, order_path):

@@ -104,3 +104,7 @@ class SchedulingSystem(wx.Frame):
 
     def updateTree(self):
         print("hello")
+        self.panel_order_management.navTree.updateTree()
+        self.panel_simulation.navTree.updateTree()
+        self.panel_train.navTree.updateTree()
+        self.panel_opt.navTree.updateTree()

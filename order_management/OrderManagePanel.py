@@ -32,11 +32,11 @@ class OrderManagePanel(wx.Panel):
         self.btn_open.SetBitmap(wx.Bitmap('icon/optimize.ico'))
         self.Bind(wx.EVT_BUTTON, self.on_button_open, self.btn_open)
 
-        self.btn_view = wx.Button(calib_panel, wx.ID_ANY, u"修改订单",
+        self.btn_edit = wx.Button(calib_panel, wx.ID_ANY, u"修改订单",
                                  wx.DefaultPosition, wx.DefaultSize, 0)
-        self.btn_view.SetFont(font_button)
-        self.btn_view.SetBitmap(wx.Bitmap('icon/metamodel.ico'))
-        self.Bind(wx.EVT_BUTTON, self.on_button_view, self.btn_view)
+        self.btn_edit.SetFont(font_button)
+        self.btn_edit.SetBitmap(wx.Bitmap('icon/metamodel.ico'))
+        self.Bind(wx.EVT_BUTTON, self.on_button_edit, self.btn_edit)
 
         self.btn_explore = wx.Button(calib_panel, wx.ID_ANY, u"删除订单",
                                   wx.DefaultPosition, wx.DefaultSize, 0)
@@ -52,7 +52,7 @@ class OrderManagePanel(wx.Panel):
 
         tab_sizer.Add(self.btn_create, 0, wx.ALL, 5)
         tab_sizer.Add(self.btn_open, 0, wx.ALL, 5)
-        tab_sizer.Add(self.btn_view, 0, wx.ALL, 5)
+        tab_sizer.Add(self.btn_edit, 0, wx.ALL, 5)
         tab_sizer.Add(self.btn_explore, 0, wx.ALL, 5)
         tab_sizer.Add(self.btn_uncertain_order, 0, wx.ALL, 5)
 
@@ -96,10 +96,10 @@ class OrderManagePanel(wx.Panel):
         if self.is_selected():
             self.orderNotebook.show_open_page(self.order_path)
 
-    def on_button_view(self, event):
+    def on_button_edit(self, event):
         if self.is_selected():
-            self.showNotebook.show_view_page()
+            self.orderNotebook.show_edit_page(self.order_path)
 
     def on_button_explore(self, event):
         if self.is_selected():
-            self.showNotebook.show_explore_page()
+            self.orderNotebook.show_explore_page()

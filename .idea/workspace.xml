@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d15d9adc-18a2-498f-84b9-761d8f9386e9" name="Changes" comment="structured">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainUI/MainFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainUI/MainFrame.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/order_management/OrderManagePanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/OrderManagePanel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/order_management/OrderNotebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/OrderNotebook.py" afterDir="false" />
     </list>
@@ -119,7 +120,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682407817857</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="structured">
+      <created>1682428786678</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1682428786678</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
