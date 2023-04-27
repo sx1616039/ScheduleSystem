@@ -7,7 +7,7 @@ import os
 from wx import aui
 import wx
 import wx.grid
-from order_management import OpenPanel, EditPanel
+from order_management import OpenPanel, EditPanel, DeletePanel, UncertainOrderPanel
 from order_management import CreatePanel
 
 
@@ -52,9 +52,16 @@ class OrderNotebook(aui.AuiNotebook):
             page_title = "%s: %s" % (u" 修改订单", model_name)
             self.AddPage(new_panel, page_title, True, wx.NullBitmap)
 
-    def show_explore_page(self, order_path):
+    def show_delete_page(self, order_path):
         if self.is_new_page(flag=3):
-            new_panel = OpenPanel.OpenPanel(self,order_path)
+            delete_panel = DeletePanel.DeletePanel(self, order_path)
             model_name = os.path.basename(order_path).split('.')[0]
-            page_title = "%s%s" % (model_name[0][0], u" 打开订单")
-            self.AddPage(new_panel, page_title, True, wx.NullBitmap)
+            page_title = "%s: %s" % (u" 删除订单", model_name)
+            self.AddPage(delete_panel, page_title, True, wx.NullBitmap)
+
+    def show_uncertain_order_page(self, order_path):
+        if self.is_new_page(flag=4):
+            uncertain_order_panel = UncertainOrderPanel.UncertainOrderPanel(self, order_path)
+            model_name = os.path.basename(order_path).split('.')[0]
+            page_title = "%s: %s" % (u" 生成不确定订单", model_name)
+            self.AddPage(uncertain_order_panel, page_title, True, wx.NullBitmap)

@@ -38,22 +38,22 @@ class OrderManagePanel(wx.Panel):
         self.btn_edit.SetBitmap(wx.Bitmap('icon/metamodel.ico'))
         self.Bind(wx.EVT_BUTTON, self.on_button_edit, self.btn_edit)
 
-        self.btn_explore = wx.Button(calib_panel, wx.ID_ANY, u"删除订单",
+        self.btn_delete = wx.Button(calib_panel, wx.ID_ANY, u"删除订单",
                                   wx.DefaultPosition, wx.DefaultSize, 0)
-        self.btn_explore.SetFont(font_button)
-        self.btn_explore.SetBitmap(wx.Bitmap('icon/optimize.ico'))
-        self.Bind(wx.EVT_BUTTON, self.on_button_explore, self.btn_explore)
+        self.btn_delete.SetFont(font_button)
+        self.btn_delete.SetBitmap(wx.Bitmap('icon/delete.ico'))
+        self.Bind(wx.EVT_BUTTON, self.on_button_delete, self.btn_delete)
 
-        self.btn_uncertain_order = wx.Button(calib_panel, wx.ID_ANY, u"不确定订单生成",
+        self.btn_uncertain_order = wx.Button(calib_panel, wx.ID_ANY, u"生成不确定订单",
                                      wx.DefaultPosition, wx.DefaultSize, 0)
         self.btn_uncertain_order.SetFont(font_button)
         self.btn_uncertain_order.SetBitmap(wx.Bitmap('icon/data.ico'))
-        self.Bind(wx.EVT_BUTTON, self.on_button_explore, self.btn_uncertain_order)
+        self.Bind(wx.EVT_BUTTON, self.on_button_uncertain_order, self.btn_uncertain_order)
 
         tab_sizer.Add(self.btn_create, 0, wx.ALL, 5)
         tab_sizer.Add(self.btn_open, 0, wx.ALL, 5)
         tab_sizer.Add(self.btn_edit, 0, wx.ALL, 5)
-        tab_sizer.Add(self.btn_explore, 0, wx.ALL, 5)
+        tab_sizer.Add(self.btn_delete, 0, wx.ALL, 5)
         tab_sizer.Add(self.btn_uncertain_order, 0, wx.ALL, 5)
 
         # 下方导航树及展示界面panel
@@ -100,6 +100,10 @@ class OrderManagePanel(wx.Panel):
         if self.is_selected():
             self.orderNotebook.show_edit_page(self.order_path)
 
-    def on_button_explore(self, event):
+    def on_button_delete(self, event):
         if self.is_selected():
-            self.orderNotebook.show_explore_page()
+            self.orderNotebook.show_delete_page(self.order_path)
+
+    def on_button_uncertain_order(self, event):
+        if os.path.exists(self.navTree.GetItemData(self.navTree.GetSelection())):
+            self.orderNotebook.show_uncertain_order_page(self.navTree.GetItemData(self.navTree.GetSelection()))
