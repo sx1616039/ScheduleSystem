@@ -205,9 +205,9 @@ class UncertainOrderPanel(wx.Panel):
             job = self.gen_order_uncertainty(job_num, machine_num, job)
         if self.check_scale_uncertainty.GetValue() == 1:  # 考虑规模不确定性
             job_num, machine_num, job = self.gen_scale_uncertainty(job_num, machine_num, job)
-        self.save_order(path, job_num, machine_num, job)
         self.job_num = job_num
         self.machine_num = machine_num
+        self.save_order(path, job_num, machine_num, job)
 
     def gen_time_uncertainty(self, job_num, machine_num, job):
         prob_type = self.combobox_prob_type.GetSelection()
@@ -254,7 +254,7 @@ class UncertainOrderPanel(wx.Panel):
         new_job = np.zeros([new_job_num + job_num, max(new_machine_num, machine_num)*2], int)
         # 复制原任务
         for j in range(job_num):
-            for i in range(max(new_machine_num, machine_num)):
+            for i in range(machine_num):
                 new_job[j][i * 2] = job[j][i * 2]
                 new_job[j][i * 2 + 1] = job[j][i * 2 + 1]
         # 添加新任务
@@ -264,7 +264,7 @@ class UncertainOrderPanel(wx.Panel):
                 new_process_time = round(random.uniform(min_time, max_time))
                 new_job[j+job_num][2 * i] = machines[i]
                 new_job[j+job_num][i * 2 + 1] = new_process_time
-        return new_job_num + job_num, new_machine_num, new_job
+        return new_job_num + job_num, machine_num, new_job
 
     def read_order(self, file_path):
         with open(file_path, 'r') as f:

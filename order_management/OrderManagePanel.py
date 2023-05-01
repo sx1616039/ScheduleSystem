@@ -6,7 +6,7 @@ import os
 import time
 import wx
 
-from MainUI import NavTree
+from MainUI import OrderTree, ModelTree
 from order_management import OrderNotebook
 
 
@@ -57,28 +57,35 @@ class OrderManagePanel(wx.Panel):
         tab_sizer.Add(self.btn_uncertain_order, 0, wx.ALL, 5)
 
         # 下方导航树及展示界面panel
-        tree_panel = wx.Panel(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
-        self.navTree = NavTree.NavTree(tree_panel)
-        self.orderNotebook = OrderNotebook.OrderNotebook(tree_panel)
+        show_panel = wx.Panel(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
+        self.TreePage = wx.Notebook(show_panel, wx.ID_ANY,
+                                    wx.DefaultPosition, wx.DefaultSize, 0)
+        self.TreePage.SetPadding(wx.Size(20, 5))
+        self.TreePage.SetFont(wx.Font(12, wx.ROMAN, wx.NORMAL, wx.NORMAL, False))
+        self.order_tree = OrderTree.OrderTree(self.TreePage)
+        self.model_tree = ModelTree.ModelTree(self.TreePage)
+        self.TreePage.AddPage(self.order_tree, u"订单", True)
+        self.TreePage.AddPage(self.model_tree, u"模型", False)
 
-        # tree_panel布局
+        self.orderNotebook = OrderNotebook.OrderNotebook(show_panel)
+        # show_panel布局
         hBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
-        hBoxSizer.Add(self.navTree, 1, wx.ALL | wx.EXPAND, 5)
+        hBoxSizer.Add(self.TreePage, 1, wx.ALL | wx.EXPAND, 5)
         hBoxSizer.Add(self.orderNotebook, 4, wx.EXPAND | wx.ALL, 5)
-        tree_panel.SetSizer(hBoxSizer)
+        show_panel.SetSizer(hBoxSizer)
 
         # 整个模块布局
         vBoxSizer = wx.BoxSizer(wx.VERTICAL)
         vBoxSizer.Add(calib_panel, 0, wx.EXPAND | wx.ALL, 5)
-        vBoxSizer.Add(tree_panel, 1, wx.EXPAND | wx.ALL, 5)
+        vBoxSizer.Add(show_panel, 1, wx.EXPAND | wx.ALL, 5)
         self.SetSizer(vBoxSizer)
         self.order_path = ''
 
     def is_selected(self):
         try:
-            if not os.path.isdir(self.navTree.GetItemData(self.navTree.GetSelection())):
-                print(self.navTree.GetItemData(self.navTree.GetSelection()))
-                self.order_path = self.navTree.GetItemData(self.navTree.GetSelection())
+            if not os.path.isdir(self.order_tree.GetItemData(self.order_tree.GetSelection())):
+                print(self.order_tree.GetItemData(self.order_tree.GetSelection()))
+                self.order_path = self.order_tree.GetItemData(self.order_tree.GetSelection())
                 return True
             else:
                 dlg = wx.MessageDialog(None, message='请先选择一个订单', caption='提示')
@@ -105,5 +112,5 @@ class OrderManagePanel(wx.Panel):
             self.orderNotebook.show_delete_page(self.order_path)
 
     def on_button_uncertain_order(self, event):
-        if os.path.exists(self.navTree.GetItemData(self.navTree.GetSelection())):
-            self.orderNotebook.show_uncertain_order_page(self.navTree.GetItemData(self.navTree.GetSelection()))
+        if os.path.exists(self.order_tree.GetItemData(self.order_tree.GetSelection())):
+            self.orderNotebook.show_uncertain_order_page(self.order_tree.GetItemData(self.order_tree.GetSelection()))

@@ -3,6 +3,7 @@
 import wx
 import datetime
 
+from model_management import ModelManagePanel
 from model_optimization import OptPanel
 from model_training import TrainPanel
 from order_management import OrderManagePanel
@@ -63,12 +64,14 @@ class SchedulingSystem(wx.Frame):
 
         # 每个页签下加入各功能模块panel
         self.panel_order_management = OrderManagePanel.OrderManagePanel(self.NaviPage)
+        self.panel_model_management = ModelManagePanel.ModelManagePanel(self.NaviPage)
         self.panel_simulation = SimulationPanel.SimulationPanel(self.NaviPage)
         self.panel_train = TrainPanel.TrainPanel(self.NaviPage)
         self.panel_opt = OptPanel.OptPanel(self.NaviPage)
         self.panel_visualization = VisualizationPanel.VisualizationPanel(self.NaviPage)
 
         self.NaviPage.AddPage(self.panel_order_management, u"订单管理", True)
+        self.NaviPage.AddPage(self.panel_model_management, u"模型管理", False)
         self.NaviPage.AddPage(self.panel_simulation, u"仿真运行", False)
         self.NaviPage.AddPage(self.panel_train, u"模型训练", False)
         self.NaviPage.AddPage(self.panel_opt, u"模型优化", False)

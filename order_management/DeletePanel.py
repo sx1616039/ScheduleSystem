@@ -60,4 +60,12 @@ class DeletePanel(wx.Panel):
                 self.grid.SetCellValue(j, 2 * i + 1, str(self.job[j][2 * i + 1]))
 
     def on_button_delete(self, event):
-        print("delete")
+        dlg = wx.MessageBox("确认删除该订单", "提示", wx.OK | wx.ICON_INFORMATION | wx.CANCEL)
+        if dlg == 4:
+            os.remove(self.path)
+            # 找到OrderManagementPanel的树结构并更新
+            self.Parent.Parent.Parent.order_tree.updateTree()
+            for j in range(self.job_num):
+                for i in range(self.machine_num):
+                    self.grid.SetCellValue(j, 2 * i, '')
+                    self.grid.SetCellValue(j, 2 * i + 1, '')

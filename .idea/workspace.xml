@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d15d9adc-18a2-498f-84b9-761d8f9386e9" name="Changes" comment="orders operations">
+    <list default="true" id="d15d9adc-18a2-498f-84b9-761d8f9386e9" name="Changes" comment="uncertain orders operations">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainUI/MainFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainUI/MainFrame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainUI/NavTree.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainUI/comnTree.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_optimization/OptPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_optimization/OptPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_training/TrainPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_training/TrainPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order_management/CreatePanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/CreatePanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order_management/DeletePanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/DeletePanel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/order_management/OrderManagePanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/OrderManagePanel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order_management/OrderNotebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/OrderNotebook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order_management/UncertainOrderPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/UncertainOrderPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/abz5_25_a_10_25_b_25_.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/abz5_25_a_10_25_b_25_c_1_6_1_99_.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/abz5_25_c_1_6_1_99_.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/simulation/SimulationPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/simulation/SimulationPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/VisualizationPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualization/VisualizationPanel.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +43,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Uncertainty" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
@@ -141,7 +153,21 @@
       <option name="project" value="LOCAL" />
       <updated>1682477511533</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="uncertain orders operations">
+      <created>1682592471153</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1682592471153</updated>
+    </task>
+    <task id="LOCAL-00012" summary="uncertain orders operations">
+      <created>1682592480404</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1682592480404</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -162,6 +188,7 @@
     <MESSAGE value="pages" />
     <MESSAGE value="structured" />
     <MESSAGE value="orders operations" />
-    <option name="LAST_COMMIT_MESSAGE" value="orders operations" />
+    <MESSAGE value="uncertain orders operations" />
+    <option name="LAST_COMMIT_MESSAGE" value="uncertain orders operations" />
   </component>
 </project>
