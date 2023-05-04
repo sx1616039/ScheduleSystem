@@ -240,9 +240,6 @@ class EditPanel(wx.Panel):
         self.root.append(ppo)
         self.tree.write(self.path)
 
-        # 找到ModelManagementPanel的树结构并更新
-        self.Parent.Parent.Parent.model_tree.updateTree()
-
     def show_MLP(self):
         MLP_Actor = self.root.find('Actor_MLP')
         layers = MLP_Actor.get('layers')

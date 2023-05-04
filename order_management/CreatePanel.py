@@ -18,11 +18,11 @@ class CreatePanel(wx.Panel):
         ''' 第一行：选择路径按钮 '''
         file_panel = wx.Panel(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
         label_file_name = wx.StaticText(file_panel, wx.ID_ANY, u"名称:", wx.DefaultPosition, wx.DefaultSize, 0)
-        self.text_file_name = wx.TextCtrl(file_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25), style=wx.TE_LEFT)
+        self.text_file_name = wx.TextCtrl(file_panel, wx.ID_ANY, pos=(0, 30), size=(100, 25), style=wx.TE_LEFT)
         self.text_file_name.AppendText('新订单1')
         label_file_path = wx.StaticText(file_panel, wx.ID_ANY, u"路径：",
                                       wx.DefaultPosition, wx.DefaultSize, 0)
-        self.text_file_path = wx.TextCtrl(file_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25), style=wx.TE_LEFT)
+        self.text_file_path = wx.TextCtrl(file_panel, wx.ID_ANY, pos=(0, 30), size=(200, 25), style=wx.TE_LEFT)
         self.text_file_path.AppendText('C:\\Users\\wxq\\Desktop\\ScheduleSystem-main\\orders')
         ''' 选择路径按钮 '''
         btn_selection = wx.Button(file_panel, wx.ID_ANY, u"选择", wx.DefaultPosition, wx.Size(100, 25), 0)

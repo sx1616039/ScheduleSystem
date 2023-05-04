@@ -7,7 +7,7 @@ import os
 from wx import aui
 import wx
 import wx.grid
-from model_management import OpenPanel, EditPanel, DeletePanel
+from model_management import OpenPanel, EditPanel
 from model_management import CreateModelPanel
 
 
@@ -51,9 +51,3 @@ class ModelNotebook(aui.AuiNotebook):
             page_title = "%s: %s" % (title, model_name)
             self.AddPage(new_panel, page_title, True, wx.NullBitmap)
 
-    def show_delete_page(self, title, model_path):
-        if self.is_new_page(flag=3):
-            delete_panel = DeletePanel.DeletePanel(self, model_path)
-            model_name = os.path.basename(model_path).split('.')[0]
-            page_title = "%s: %s" % (title, model_name)
-            self.AddPage(delete_panel, page_title, True, wx.NullBitmap)
