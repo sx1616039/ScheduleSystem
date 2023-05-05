@@ -97,20 +97,21 @@ class OrderManagePanel(wx.Panel):
             return False
 
     def on_button_create(self, event):
-        self.orderNotebook.show_create_page()
+        self.orderNotebook.show_create_page(self.btn_create.GetLabel())
 
     def on_button_open(self, event):
         if self.is_selected():
-            self.orderNotebook.show_open_page(self.order_path)
+            self.orderNotebook.show_open_page(self.order_path, self.btn_open.GetLabel())
 
     def on_button_edit(self, event):
         if self.is_selected():
-            self.orderNotebook.show_edit_page(self.order_path)
+            self.orderNotebook.show_edit_page(self.order_path,self.btn_edit.GetLabel())
 
     def on_button_delete(self, event):
         if self.is_selected():
-            self.orderNotebook.show_delete_page(self.order_path)
+            self.orderNotebook.show_delete_page(self.order_path, self.btn_delete.GetLabel())
 
     def on_button_uncertain_order(self, event):
-        if os.path.exists(self.order_tree.GetItemData(self.order_tree.GetSelection())):
-            self.orderNotebook.show_uncertain_order_page(self.order_tree.GetItemData(self.order_tree.GetSelection()))
+        selected_order = self.order_tree.GetItemData(self.order_tree.GetSelection())
+        if os.path.exists(selected_order):
+            self.orderNotebook.show_uncertain_order_page(selected_order, self.btn_uncertain_order.GetLabel())

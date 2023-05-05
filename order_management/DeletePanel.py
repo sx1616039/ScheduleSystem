@@ -11,8 +11,8 @@ import numpy as np
 
 class DeletePanel(wx.Panel):
 
-    def __init__(self, parent, order_path=None):
-        wx.Panel.__init__(self, parent, wx.ID_ANY, wx.DefaultPosition,
+    def __init__(self, parent, order_path, page_id):
+        wx.Panel.__init__(self, parent, page_id, wx.DefaultPosition,
                           wx.DefaultSize, wx.TAB_TRAVERSAL)
         self.path = order_path
         # 表格

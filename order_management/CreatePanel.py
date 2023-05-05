@@ -13,7 +13,7 @@ import numpy as np
 class CreatePanel(wx.Panel):
 
     def __init__(self, parent, order_path=None):
-        wx.Panel.__init__(self, parent, wx.ID_ANY, wx.DefaultPosition,
+        wx.Panel.__init__(self, parent, 0, wx.DefaultPosition,
                           wx.DefaultSize, wx.TAB_TRAVERSAL)
         ''' 第一行：选择路径按钮 '''
         file_panel = wx.Panel(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)

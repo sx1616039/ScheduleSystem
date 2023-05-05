@@ -12,8 +12,8 @@ import numpy as np
 
 class UncertainOrderPanel(wx.Panel):
 
-    def __init__(self, parent, order_path=None):
-        wx.Panel.__init__(self, parent, wx.ID_ANY, wx.DefaultPosition,
+    def __init__(self, parent, order_path, page_id):
+        wx.Panel.__init__(self, parent, page_id, wx.DefaultPosition,
                           wx.DefaultSize, wx.TAB_TRAVERSAL)
         ''' 第一行：选择路径按钮 '''
         file_panel = wx.Panel(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)

@@ -12,8 +12,8 @@ from xml.etree.ElementTree import Element
 
 class OpenPanel(wx.Panel):
 
-    def __init__(self, parent, model_path=None):
-        wx.Panel.__init__(self, parent, wx.ID_ANY, wx.DefaultPosition,
+    def __init__(self, parent, model_path, page_id):
+        wx.Panel.__init__(self, parent, page_id, wx.DefaultPosition,
                           wx.DefaultSize, wx.TAB_TRAVERSAL)
         dir_name = os.path.basename(model_path)
         description_file = dir_name + '_description.xml'

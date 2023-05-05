@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d15d9adc-18a2-498f-84b9-761d8f9386e9" name="Changes" comment="model management">
+    <list default="true" id="d15d9adc-18a2-498f-84b9-761d8f9386e9" name="Changes" comment="model training">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_management/DeletePanel.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/model_management/EditPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_management/EditPanel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model_management/ModelNotebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_management/ModelNotebook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_training/TrainNotebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_training/TrainNotebook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_training/TrainPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_training/TrainPanel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/新模型1/新模型1_description.xml" beforeDir="false" afterPath="$PROJECT_DIR$/models/新模型1/新模型1_description.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_management/OpenPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_management/OpenPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_optimization/OptNotebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_optimization/OptNotebook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_optimization/OptPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_optimization/OptPanel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/order_management/CreatePanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/CreatePanel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orders/data/新订单2" beforeDir="false" afterPath="$PROJECT_DIR$/orders/data/新订单2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order_management/EditPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/EditPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order_management/OpenPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/OpenPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order_management/OrderManagePanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/OrderManagePanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order_management/OrderNotebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/OrderNotebook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order_management/UncertainOrderPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/UncertainOrderPanel.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +40,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Uncertainty" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
@@ -175,7 +178,21 @@
       <option name="project" value="LOCAL" />
       <updated>1682928045438</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="model training">
+      <created>1683192239449</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1683192239449</updated>
+    </task>
+    <task id="LOCAL-00016" summary="model training">
+      <created>1683192243449</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1683192243449</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -198,6 +215,18 @@
     <MESSAGE value="orders operations" />
     <MESSAGE value="uncertain orders operations" />
     <MESSAGE value="model management" />
-    <option name="LAST_COMMIT_MESSAGE" value="model management" />
+    <MESSAGE value="model training" />
+    <option name="LAST_COMMIT_MESSAGE" value="model training" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/model_optimization/OptNotebook.py</url>
+          <line>29</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

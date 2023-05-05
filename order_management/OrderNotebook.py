@@ -32,36 +32,40 @@ class OrderNotebook(aui.AuiNotebook):
                 return False
         return True
 
-    def show_create_page(self):
-        if self.is_new_page(flag=0):
+    def show_create_page(self, title):
+        if self.is_new_page(0):
             new_panel = CreatePanel.CreatePanel(self)
             page_title = u"创建订单"
             self.AddPage(new_panel, page_title, True, wx.NullBitmap)
 
-    def show_open_page(self, order_path):
-        if self.is_new_page(flag=1):
-            new_panel = OpenPanel.OpenPanel(self, order_path)
+    def show_open_page(self, order_path, title):
+        page_id = hash(order_path+title) % 32000
+        if self.is_new_page(page_id):
+            new_panel = OpenPanel.OpenPanel(self, order_path, page_id)
             model_name = os.path.basename(order_path).split('.')[0]
-            page_title = "%s: %s" % (u" 打开订单", model_name)
+            page_title = "%s: %s" % (title, model_name)
             self.AddPage(new_panel, page_title, True, wx.NullBitmap)
 
-    def show_edit_page(self, order_path):
-        if self.is_new_page(flag=2):
-            new_panel = EditPanel.EditPanel(self, order_path)
+    def show_edit_page(self, order_path, title):
+        page_id = hash(order_path+title) % 32000
+        if self.is_new_page(page_id):
+            new_panel = EditPanel.EditPanel(self, order_path, page_id)
             model_name = os.path.basename(order_path).split('.')[0]
-            page_title = "%s: %s" % (u" 修改订单", model_name)
+            page_title = "%s: %s" % (title, model_name)
             self.AddPage(new_panel, page_title, True, wx.NullBitmap)
 
-    def show_delete_page(self, order_path):
-        if self.is_new_page(flag=3):
-            delete_panel = DeletePanel.DeletePanel(self, order_path)
+    def show_delete_page(self, order_path, title):
+        page_id = hash(order_path+title) % 32000
+        if self.is_new_page(page_id):
+            delete_panel = DeletePanel.DeletePanel(self, order_path, page_id)
             model_name = os.path.basename(order_path).split('.')[0]
-            page_title = "%s: %s" % (u" 删除订单", model_name)
+            page_title = "%s: %s" % (title, model_name)
             self.AddPage(delete_panel, page_title, True, wx.NullBitmap)
 
-    def show_uncertain_order_page(self, order_path):
-        if self.is_new_page(flag=4):
-            uncertain_order_panel = UncertainOrderPanel.UncertainOrderPanel(self, order_path)
+    def show_uncertain_order_page(self, order_path, title):
+        page_id = hash(order_path+title) % 32000
+        if self.is_new_page(page_id):
+            uncertain_order_panel = UncertainOrderPanel.UncertainOrderPanel(self, order_path, page_id)
             model_name = os.path.basename(order_path).split('.')[0]
-            page_title = "%s: %s" % (u" 生成不确定订单", model_name)
+            page_title = "%s: %s" % (title, model_name)
             self.AddPage(uncertain_order_panel, page_title, True, wx.NullBitmap)
