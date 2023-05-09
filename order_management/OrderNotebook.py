@@ -22,7 +22,7 @@ class OrderNotebook(aui.AuiNotebook):
     def on_close(self, event):
         print("close")
 
-    def is_new_page(self, flag=0):   # flag=0:建模；flag=1：优化；flag=2:数据生成；flag=3：试验设计
+    def is_new_page(self, flag=0):
         page_id = flag
         for x in range(self.GetPageCount()):
             if page_id == self.GetPage(x).GetId():

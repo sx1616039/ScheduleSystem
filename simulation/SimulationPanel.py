@@ -11,8 +11,6 @@ from simulation import SimNotebook
 
 
 class SimulationPanel(wx.Panel):
-    selected_id = 0
-
     def __init__(self, parent=None):
         wx.Panel.__init__(self, parent, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
 
@@ -22,11 +20,11 @@ class SimulationPanel(wx.Panel):
         calib_panel.SetSizer(tab_sizer)
 
         font_button = wx.Font(11, wx.ROMAN, wx.NORMAL, wx.NORMAL, False)
-        self.btn_model = wx.Button(calib_panel, wx.ID_ANY, u"仿真设置",
+        self.btn_setting = wx.Button(calib_panel, wx.ID_ANY, u"仿真设置",
                                 wx.DefaultPosition, wx.DefaultSize, 0)
-        self.btn_model.SetFont(font_button)
-        self.btn_model.SetBitmap(wx.Bitmap('icon/metamodel.ico'))
-        self.Bind(wx.EVT_BUTTON, self.on_button_model, self.btn_model)
+        self.btn_setting.SetFont(font_button)
+        self.btn_setting.SetBitmap(wx.Bitmap('icon/metamodel.ico'))
+        self.Bind(wx.EVT_BUTTON, self.on_button_setting, self.btn_setting)
 
         self.btn_opt = wx.Button(calib_panel, wx.ID_ANY, u"运行",
                                  wx.DefaultPosition, wx.DefaultSize, 0)
@@ -34,7 +32,7 @@ class SimulationPanel(wx.Panel):
         self.btn_opt.SetBitmap(wx.Bitmap('icon/optimize.ico'))
         self.Bind(wx.EVT_BUTTON, self.on_button_opt, self.btn_opt)
 
-        tab_sizer.Add(self.btn_model, 0, wx.ALL, 5)
+        tab_sizer.Add(self.btn_setting, 0, wx.ALL, 5)
         tab_sizer.Add(self.btn_opt, 0, wx.ALL, 5)
 
         # 下方导航树及展示界面panel
@@ -61,30 +59,24 @@ class SimulationPanel(wx.Panel):
         vBoxSizer.Add(show_panel, 1, wx.EXPAND | wx.ALL, 5)
         self.SetSizer(vBoxSizer)
         self.order_path = ''
+        self.model_path = ''
 
     def is_selected(self):
         try:
-            print(self.order_tree.GetItemData(self.order_tree.GetSelection()))
-            if os.path.exists(self.order_tree.GetItemData(self.order_tree.GetSelection())):
-                self.order_path = self.order_tree.GetItemData(self.order_tree.GetSelection())
+            self.order_path = self.order_tree.GetItemData(self.order_tree.GetSelection())
+            print(self.order_path)
+            if os.path.exists(self.order_path):
+                self.model_path = self.model_tree.GetItemData(self.model_tree.GetSelection())
                 return True
         except:
-            dlg = wx.MessageDialog(None, message='请先选择一个仿真模型', caption='warning')
+            dlg = wx.MessageDialog(None, message='请选择订单和模型', caption='提示')
             dlg.ShowModal()
             return False
 
-    def on_button_model(self, event):
+    def on_button_setting(self, event):
         if self.is_selected():
-            self.simNotebook.show_modeling_page()
+            self.simNotebook.show_setting_page(self.btn_setting.GetLabel(), self.order_path, self.model_path)
 
     def on_button_opt(self, event):
         if self.is_selected():
             self.simNotebook.show_opt_page()
-
-    def on_button_view(self, event):
-        if self.is_selected():
-            self.simNotebook.show_view_page()
-
-    def on_button_explore(self, event):
-        if self.is_selected():
-            self.simNotebook.show_explore_page()

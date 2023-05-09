@@ -333,7 +333,7 @@ class UncertainOrderPanel(wx.Panel):
                 self.grid.SetCellValue(j, 2 * i, str(job[j][2 * i]))
                 self.grid.SetCellValue(j, 2 * i + 1, str(job[j][2 * i + 1]))
         # 找到OrderManagementPanel的树结构并更新
-        self.Parent.Parent.Parent.navTree.updateTree()
+        self.Parent.Parent.Parent.order_tree.updateTree()
 
     def save_order_from_grid(self):
         file = open(self.new_instance_path, mode='w')
@@ -353,4 +353,4 @@ class UncertainOrderPanel(wx.Panel):
             file.writelines(jobi)
         file.close()
         # 找到OrderManagementPanel的树结构并更新
-        self.Parent.Parent.Parent.navTree.updateTree()
+        self.Parent.Parent.Parent.order_tree.updateTree()

@@ -121,18 +121,18 @@ class SettingPanel(wx.Panel):
             init_replay_batch = str(per.get('init_replay_batch'))
             max_replay_batch = str(per.get('max_replay_batch'))
         else:
-            check_per = False
+            check_per = 'False'
             alpha = '0.6'
             conv_steps = '500'
             replay_num = '1'
-            check_is = '0'
+            check_is = 'False'
             beta = '0.4'
             sample_type = '0'
             batch_type = '0'
             init_replay_batch = '10'
             max_replay_batch = '10'
         # 基本训练参数
-        bool_value = {'False': 0, 'True': 1}
+        bool_value = {'False': False, 'True': True}
         self.per_panel = wx.Panel(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
         self.check_per = wx.CheckBox(self.per_panel, label='优先经验重放:')
         self.check_per.SetValue(bool_value[check_per])

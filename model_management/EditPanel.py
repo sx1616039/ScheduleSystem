@@ -44,7 +44,7 @@ class EditPanel(wx.Panel):
         self.combobox_action_space.SetSelection(int(action))
         # 回报函数
         self.reward = ['调度面积', '机器空闲时间', '虚实机器空闲时间']
-        label_reward = wx.StaticText(parameter_panel, wx.ID_ANY, u"回报函数:",
+        label_reward = wx.StaticText(parameter_panel, wx.ID_ANY, u"奖励函数:",
                                      wx.DefaultPosition, wx.DefaultSize, 0)
         self.combobox_reward = wx.ComboBox(parameter_panel, -1, size=wx.Size(80, -1), choices=self.reward)
         self.combobox_reward.SetSelection(int(reward))

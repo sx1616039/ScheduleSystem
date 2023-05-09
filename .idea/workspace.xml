@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d15d9adc-18a2-498f-84b9-761d8f9386e9" name="Changes" comment="model training">
+    <list default="true" id="d15d9adc-18a2-498f-84b9-761d8f9386e9" name="Changes" comment="model opt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model_management/EditPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_management/EditPanel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_management/ModelNotebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_management/ModelNotebook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_management/OpenPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_management/OpenPanel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_optimization/OptNotebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_optimization/OptNotebook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_optimization/OptPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_optimization/OptPanel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order_management/CreatePanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/CreatePanel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order_management/EditPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/EditPanel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order_management/OpenPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/OpenPanel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order_management/OrderManagePanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/OrderManagePanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_training/SettingPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_training/SettingPanel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/order_management/OrderNotebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/OrderNotebook.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/order_management/UncertainOrderPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/UncertainOrderPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simulation/SimNotebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/simulation/SimNotebook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simulation/SimulationPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/simulation/SimulationPanel.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,10 +35,10 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Uncertainty" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../RUL_Inception-Attention-main" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.MainApp">
     <configuration name="MainApp" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ScheduleSystem" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -65,9 +60,53 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="ppo_cnn" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ScheduleSystem" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/algorithm/ppo_cnn" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithm/ppo_cnn/ppo_cnn.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="rnn_ppo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ScheduleSystem" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/algorithm/ppo_lstm" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithm/ppo_lstm/rnn_ppo.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.MainApp" />
+        <item itemvalue="Python.ppo_cnn" />
+        <item itemvalue="Python.rnn_ppo" />
       </list>
     </recent_temporary>
   </component>
@@ -192,7 +231,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683192243449</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="model opt">
+      <created>1683273804115</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1683273804115</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -216,7 +262,8 @@
     <MESSAGE value="uncertain orders operations" />
     <MESSAGE value="model management" />
     <MESSAGE value="model training" />
-    <option name="LAST_COMMIT_MESSAGE" value="model training" />
+    <MESSAGE value="model opt" />
+    <option name="LAST_COMMIT_MESSAGE" value="model opt" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
