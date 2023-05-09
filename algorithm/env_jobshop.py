@@ -25,7 +25,7 @@ def get_optimal(job_dict, opt_sign):
 
 
 class JobshopEnv:
-    def __init__(self, file_path, state_type=0, max_pdr=12, no_op=False, snapshot=False):
+    def __init__(self, file_path, state_type=0, reward_type=0, max_pdr=12, no_op=False, snapshot_percent=-1):
         self.PDRs = {"SPT": "min", "MWKR": "max", "FDD/MWKR": "min", "MOPNR": "max", "LRM": "max", "FIFO": "max",
                      "LPT": "max", "LWKR": "min", "FDD/LWKR": "max", "LOPNR": "min", "SRM": "min", "LIFO": "min"}
         self.pdr_label = ["SPT", "MWKR", "FDD/MWKR", "MOPNR", "LRM", "FIFO",
@@ -104,7 +104,7 @@ class JobshopEnv:
         self.done = False
         self.reward = 0
         self.no_op_cnt = 0
-        self.gen_snapshot = snapshot
+        self.snapshot_percent = snapshot_percent
 
     def reset(self):
         self.current_time = 0  # current time
@@ -198,9 +198,9 @@ class JobshopEnv:
                         self.allocate_job(key)
                         break  # one step at one time
         state = self._get_state()
-        if self.gen_data:
+        if self.snapshot_percent > 0:
             percent = sum(self.current_op_of_job) / (self.job_num * self.machine_num)
-            if abs(percent - 0.75) < 0.01:
+            if abs(percent - self.snapshot_percent) < 0.01:
                 self.save_snapshot(percent * 100)
         if self.stop():
             if self.make_span > self.current_time:
@@ -248,7 +248,6 @@ class JobshopEnv:
         else:
             self.current_time = self.find_second_min()
         average_machine = int((self.job_num+self.machine_num)/2)
-        # average_machine = int(2*self.total_process_time/self.make_span)
         # print(average_machine)
         for i in range(average_machine-self.machine_num):
             hole_len += self.current_time-old_time
