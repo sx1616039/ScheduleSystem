@@ -13,12 +13,13 @@ from job_img3_re import JobEnv
 
 
 class Actor(nn.Module):
-    def __init__(self, height, width, num_output, input_channel=3, out_channel=16):
+    def __init__(self, height, width, num_output, input_channel=3, out_channel=8):
         super(Actor, self).__init__()
-        self.conv1 = nn.Sequential(nn.Conv2d(input_channel, 8, kernel_size=(5, 5), padding=2), nn.ReLU())
-        self.conv2 = nn.Sequential(nn.Conv2d(8, out_channel, kernel_size=(5, 5), padding=2), nn.ReLU(),
+        self.conv1 = nn.Sequential(nn.Conv2d(input_channel, 16, kernel_size=(5, 5), padding=2), nn.ReLU(),
                                    nn.MaxPool2d(2))
-        self.action_head = nn.Linear(out_channel*int(height/2)*int(width/2), num_output)
+        self.conv2 = nn.Sequential(nn.Conv2d(16, out_channel, kernel_size=(5, 5), padding=2), nn.ReLU(),
+                                   nn.MaxPool2d(2))
+        self.action_head = nn.Linear(out_channel*int(height/4)*int(width/4), num_output)
 
     def forward(self, x):
         x = self.conv1(x)
@@ -29,12 +30,13 @@ class Actor(nn.Module):
 
 
 class Critic(nn.Module):
-    def __init__(self, height, width, input_channel=3, num_output=1, out_channel=16):
+    def __init__(self, height, width, input_channel=3, num_output=1, out_channel=8):
         super(Critic, self).__init__()
-        self.conv1 = nn.Sequential(nn.Conv2d(input_channel, 8, kernel_size=(5, 5), padding=2), nn.ReLU())
-        self.conv2 = nn.Sequential(nn.Conv2d(8, out_channel, kernel_size=(5, 5), padding=2), nn.ReLU(),
+        self.conv1 = nn.Sequential(nn.Conv2d(input_channel, 16, kernel_size=(5, 5), padding=2), nn.ReLU(),
                                    nn.MaxPool2d(2))
-        self.state_value = nn.Linear(out_channel*int(height/2)*int(width/2), num_output)
+        self.conv2 = nn.Sequential(nn.Conv2d(16, out_channel, kernel_size=(5, 5), padding=2), nn.ReLU(),
+                                   nn.MaxPool2d(2))
+        self.state_value = nn.Linear(out_channel*int(height/4)*int(width/4), num_output)
 
     def forward(self, x):
         x = self.conv1(x)
@@ -54,7 +56,7 @@ class PPO:
 
         self.action_dim = self.env.action_num
         self.case_name = self.env.case_name
-        self.gamma = 0.999  # reward discount
+        self.gamma = 1  # reward discount
         self.A_LR = 1e-3  # learning rate for actor
         self.C_LR = 3e-3  # learning rate for critic
         self.UPDATE_STEPS = 10  # actor update steps
@@ -76,7 +78,7 @@ class PPO:
         self.convergence_episode = 5000
         self.beta_increment = (self.upper_bound - self.beta) / self.convergence_episode
         self.train_steps = 0
-        self.max_batch_size = 600
+        self.max_batch_size = int(self.batch_size/2)
         self.PER_NUM = 1
 
     def select_action(self, state):
@@ -150,23 +152,38 @@ class PPO:
         for k in range(self.UPDATE_STEPS):
             self.train_steps += 1
             # # replay all experience
-            for index in BatchSampler(SubsetRandomSampler(range(len(ba))), self.batch_size, True):
+            for index in BatchSampler(SubsetRandomSampler(range(len(ba))), self.batch_size, False):
                 self.priorities[index] = self.learn(state[index], action[index], d_reward[index], old_log_prob[index])
             # priority replay
-            # for w in range(self.PER_NUM):
-            #     prob1 = self.priorities / np.sum(self.priorities)
-            #     indices = np.random.choice(len(prob1), min(self.max_batch_size, self.batch_size), p=prob1)
-            #     weights = (len(ba) * prob1[indices]) ** (- self.beta)
-            #     if self.beta < self.upper_bound:
-            #         self.beta += self.beta_increment
-            #     weights = weights / np.max(weights)
-            #     weights = np.array(weights, dtype=np.float32)
-            #     self.learn(state[indices], action[indices], d_reward[indices], old_log_prob[indices], weights)
+            for w in range(self.PER_NUM):
+                prob1 = self.priorities / np.sum(self.priorities)
+                indices = np.random.choice(len(prob1), min(self.max_batch_size, self.batch_size), p=prob1)
+                weights = (len(ba) * prob1[indices]) ** (- self.beta)
+                if self.beta < self.upper_bound:
+                    self.beta += self.beta_increment
+                weights = weights / np.max(weights)
+                weights = np.array(weights, dtype=np.float32)
+                self.learn(state[indices], action[indices], d_reward[indices], old_log_prob[indices], weights)
+
+    def test(self, model_name):
+        self.load_params(model_name)
+        value = []
+        t0 = time.time()
+        for m in range(30):
+            state = self.env.reset()
+            while True:
+                action, _ = self.select_action(state)
+                next_state, reward, done = self.env.step(action)
+                state = next_state
+                if done:
+                    break
+            value.append(self.env.current_time)
+        return min(value), 30, time.time() - t0
 
     def train(self, data_set, save_params=False):
         if not save_params:
             self.load_params(data_set)
-        column = ["episode", "make_span", "reward", 'min_make_span']
+        column = ["episode", "make_span", "reward", 'min make span']
         results = pd.DataFrame(columns=column, dtype=float)
         index = 0
         converged = 0
@@ -203,13 +220,12 @@ class PPO:
                         ba[len(ba):len(ba)] = buffer_a
                         br[len(br):len(br)] = discounted_r
                         bp[len(bp):len(bp)] = buffer_p
-
-                        index = i_epoch * self.memory_size + m
                         if min_make_span > self.env.current_time:
                             min_make_span = self.env.current_time
-                        # Episode: make_span: Episode reward: no-op count
-                        print('{}    {}    {:.2f}  {}'.format(i_epoch, self.env.current_time,
-                                                              episode_reward, min_make_span))
+                        # Episode: make_span: Episode reward
+                        print('{}    {}    {:.2f} {}'.format(i_epoch, self.env.current_time, episode_reward,
+                                                             min_make_span))
+                        index = i_epoch * self.memory_size + m
                         results.loc[index] = [i_epoch, self.env.current_time, episode_reward, min_make_span]
                         converged_value.append(self.env.current_time)
                         if len(converged_value) >= 31:
@@ -225,7 +241,7 @@ class PPO:
         results.to_csv("results/" + str(self.env.case_name) + "_" + data_set + ".csv")
         if save_params:
             self.save_params(data_set)
-        return min(converged_value), converged, time.time() - t0, self.env.no_op_cnt
+        return min(converged_value), converged, time.time() - t0, min_make_span
 
     def test(self, data_set):
         self.load_params(data_set)
@@ -245,12 +261,12 @@ class PPO:
 
 if __name__ == '__main__':
     # training policy
-    parameters = "cnn-52025"
+    parameters = "area-5202-3-1"
     path = "../data_set_sizes/"
     print(parameters)
     param = [parameters, "converge_cnt", "total_time", "min make span"]
     simple_results = pd.DataFrame(columns=param, dtype=int)
-    for cnt in range(1):
+    for cnt in range(2):
         parameters += str(cnt)
         for file_name in os.listdir(path):
             print(file_name + "========================")
@@ -258,7 +274,7 @@ if __name__ == '__main__':
             name = file_name.split('_')[0]
             env = JobEnv(title, path)
             scale = env.job_num * env.machine_num
-            model = PPO(env, memory_size=5, batch_size=2 * scale, clip_ep=0.25)
+            model = PPO(env, memory_size=5, batch_size=2 * scale, clip_ep=0.2)
             simple_results.loc[title] = model.train(title, save_params=True)
             # simple_results.loc[title] = model.train(name, save_params=False)
             # simple_results.loc[title] = model.test(name)

@@ -1,152 +1,119 @@
 import argparse
 import os
+
+import pandas as pd
 import torch
 import random
 import numpy as np
 
+from algorithm.env_jobshop import JobshopEnv
+from algorithm.ppo import Agent
+
 
 def main():
-    fix_seed = 2021
+    fix_seed = 2023
     random.seed(fix_seed)
     torch.manual_seed(fix_seed)
     np.random.seed(fix_seed)
 
-    parser = argparse.ArgumentParser(description='Autoformer & Transformer family for Time Series Forecasting')
+    parser = argparse.ArgumentParser(description='DRL scheduling method for job shop scheduling problems')
+    parser.add_argument('--policy', type=int, default=0, help='policy networks, 0: MLP, 1: SPP')
+    parser.add_argument('--model_path', type=str, default='../models', help='model path')
+    # environment config
+    parser.add_argument('--order_path', type=str, default='../orders',
+                        help='the path of orders/input data')
+    parser.add_argument('--snapshot_percent', type=float, default=0, help='make snapshot based on completion rate')
+    parser.add_argument('--no_op', type=bool, default=False, help='whether consider no op')
+    parser.add_argument('--state', type=int, default=0,
+                        help='state representation method, 0: variable, 1: matrix, 2:image')
+    parser.add_argument('--action', type=int, default=0,
+                        help='action space, 0:6-PDR, 1:12-PDR, 2:operation')
+    parser.add_argument('--reward', type=int, default=0,
+                        help='reward function, 0: area, 1: machine idle time, 2: real and imaginary machine idle time')
+    # training config
+    parser.add_argument('--batch_size', type=int, default=256,
+                        help='batch_size: the number of trajectories')
+    parser.add_argument('--max_episodes', type=int, default=4000, help='maximum training episodes')
+    parser.add_argument('--max_training_time', type=int, default=3600, 
+                        help='training time use second unit')
+    parser.add_argument('--trajectory_num', type=int, default=3, help='the capacity of training memory')
+    parser.add_argument('--rescheduling_mode', type=int, default=0,
+                        help='rescheduling_mode: 0: trained, 1: reused, 2: retrained')
+    # PER parameters
+    parser.add_argument('--alpha', type=float, default=0.6, help='exponent of TD-error for proportional priority')
+    parser.add_argument('--beta', type=float, default=0.4, help='the initial exponent for important weights ')
+    parser.add_argument('--use_IS', type=bool, default=False, help='whether use the IS')
+    parser.add_argument('--use_PER', type=bool, default=False, help='whether use the PER')
+    parser.add_argument('--conv_steps', type=int, default=5000, help='the convergence steps for PER')
+    parser.add_argument('--replay_num', type=int, default=1, help='the number of performing replay')
+    parser.add_argument('--sample_type', type=int, default=0,
+                        help='the samples are divided into 3 categories: positive, negative and all')
 
-    # basic config
-    parser.add_argument('--is_training', type=int, required=True, default=1, help='status')
-    parser.add_argument('--model_id', type=str, required=True, default='test', help='model id')
-    parser.add_argument('--model', type=str, required=True, default='Autoformer',
-                        help='model name, options: [Autoformer, Informer, Transformer]')
+    # MLP policy network parameters
+    parser.add_argument('--mlp_actor_hidden_layers', type=int, default=1, help='mlp_actor__hidden_layers')
+    parser.add_argument('--mlp_actor_activation', type=int, default=0,
+                        help='0:relu, 1:leaky relu, 2:sigmoid, 3:tanh')
+    parser.add_argument('--mlp_actor_hidden_dim', type=int, default=100, help='the dimension of hidden layers')
+    parser.add_argument('--mlp_actor_lr', type=float, default=1e-3, help='learning rate')
+    parser.add_argument('--mlp_critic_hidden_layers', type=int, default=1, help='mlp_critic_hidden_layers')
+    parser.add_argument('--mlp_critic_activation', type=int, default=0,
+                        help='0:relu, 1:leaky relu, 2:sigmoid, 3:tanh')
+    parser.add_argument('--mlp_critic_hidden_dim', type=int, default=100, help='the dimension of hidden layers')
+    parser.add_argument('--mlp_critic_lr', type=float, default=3e-3, help='learning rate')
 
-    # data loader
-    parser.add_argument('--data', type=str, required=True, default='ETTm1', help='dataset type')
-    parser.add_argument('--root_path', type=str, default='./data/ETT/', help='root path of the data file')
-    parser.add_argument('--data_path', type=str, default='ETTh1.csv', help='data file')
-    parser.add_argument('--features', type=str, default='M',
-                        help='forecasting task, options:[M, S, MS]; M:multivariate predict multivariate, S:univariate predict univariate, MS:multivariate predict univariate')
-    parser.add_argument('--target', type=str, default='OT', help='target feature in S or MS task')
-    parser.add_argument('--freq', type=str, default='h',
-                        help='freq for time features encoding, options:[s:secondly, t:minutely, h:hourly, d:daily, b:business days, w:weekly, m:monthly], you can also use more detailed freq like 15min or 3h')
-    parser.add_argument('--checkpoints', type=str, default='./checkpoints/', help='location of model checkpoints')
+    # SPP policy network parameters
+    parser.add_argument('--spp_actor_activation', type=int, default=0, help='0:relu, 1:leaky relu, 2:sigmoid, 3:tanh')
+    parser.add_argument('--spp_actor_full_connect_layers', type=int, default=1, help='the number of full connect layers')
+    parser.add_argument('--spp_actor_full_connect_dim', type=int, default=100, help='full connect layer dimension')
+    parser.add_argument('--spp_actor_input_channel', type=int, default=3, help='input image channels')
+    parser.add_argument('--spp_actor_output_channel', type=int, default=6, help='output image channels')
+    parser.add_argument('--spp_actor_kernel_size', type=int, default=5, help='the dimension of kernel size')
+    parser.add_argument('--spp_actor_lr', type=float, default=1e-3, help='learning rate of SPP actor')
+    parser.add_argument('--spp_actor_padding', type=int, default=2, help='padding')
+    parser.add_argument('--spp_actor_level', type=int, default=4, help='level of SPP')
+    parser.add_argument('--spp_actor_pooling_type', type=int, default=0,
+                        help='0:max pooling, 1:average pooling')
+    parser.add_argument('--spp_critic_activation', type=int, default=0, help='0:relu, 1:leaky relu, 2:sigmoid, 3:tanh')
+    parser.add_argument('--spp_critic_full_connect_layers', type=int, default=1,
+                        help='the number of full connect layers')
+    parser.add_argument('--spp_critic_full_connect_dim', type=int, default=100, help='full connect layer dimension')
+    parser.add_argument('--spp_critic_input_channel', type=int, default=3, help='input image channels')
+    parser.add_argument('--spp_critic_output_channel', type=int, default=6, help='output image channels')
+    parser.add_argument('--spp_critic_kernel_size', type=int, default=5, help='the dimension of kernel size')
+    parser.add_argument('--spp_critic_lr', type=float, default=1e-3, help='learning rate of SPP actor')
+    parser.add_argument('--spp_critic_padding', type=int, default=2, help='padding')
+    parser.add_argument('--spp_critic_level', type=int, default=4, help='level of SPP')
+    parser.add_argument('--spp_critic_pooling_type', type=int, default=0,
+                        help='0:max pooling, 1:average pooling')
 
-    # forecasting task
-    parser.add_argument('--seq_len', type=int, default=96, help='input sequence length')
-    parser.add_argument('--label_len', type=int, default=48, help='start token length')
-    parser.add_argument('--pred_len', type=int, default=96, help='prediction sequence length')
-
-    # model define
-    parser.add_argument('--bucket_size', type=int, default=4, help='for Reformer')
-    parser.add_argument('--n_hashes', type=int, default=4, help='for Reformer')
-    parser.add_argument('--enc_in', type=int, default=7, help='encoder input size')
-    parser.add_argument('--dec_in', type=int, default=7, help='decoder input size')
-    parser.add_argument('--c_out', type=int, default=7, help='output size')
-    parser.add_argument('--d_model', type=int, default=512, help='dimension of model')
-    parser.add_argument('--n_heads', type=int, default=8, help='num of heads')
-    parser.add_argument('--e_layers', type=int, default=2, help='num of encoder layers')
-    parser.add_argument('--d_layers', type=int, default=1, help='num of decoder layers')
-    parser.add_argument('--d_ff', type=int, default=2048, help='dimension of fcn')
-    parser.add_argument('--moving_avg', type=int, default=25, help='window size of moving average')
-    parser.add_argument('--factor', type=int, default=1, help='attn factor')
-    parser.add_argument('--distil', action='store_false',
-                        help='whether to use distilling in encoder, using this argument means not using distilling',
-                        default=True)
-    parser.add_argument('--dropout', type=float, default=0.05, help='dropout')
-    parser.add_argument('--embed', type=str, default='timeF',
-                        help='time features encoding, options:[timeF, fixed, learned]')
-    parser.add_argument('--activation', type=str, default='gelu', help='activation')
-    parser.add_argument('--output_attention', action='store_true', help='whether to output attention in encoder')
-    parser.add_argument('--do_predict', action='store_true', help='whether to predict unseen future data')
-
-    # optimization
-    parser.add_argument('--num_workers', type=int, default=10, help='data loader num workers')
-    parser.add_argument('--itr', type=int, default=2, help='experiments times')
-    parser.add_argument('--train_epochs', type=int, default=10, help='train epochs')
-    parser.add_argument('--batch_size', type=int, default=32, help='batch size of train input data')
-    parser.add_argument('--patience', type=int, default=3, help='early stopping patience')
-    parser.add_argument('--learning_rate', type=float, default=0.0001, help='optimizer learning rate')
-    parser.add_argument('--des', type=str, default='test', help='exp description')
-    parser.add_argument('--loss', type=str, default='mse', help='loss function')
-    parser.add_argument('--lradj', type=str, default='type1', help='adjust learning rate')
-    parser.add_argument('--use_amp', action='store_true', help='use automatic mixed precision training', default=False)
-
-    # GPU
-    parser.add_argument('--use_gpu', type=bool, default=True, help='use gpu')
-    parser.add_argument('--gpu', type=int, default=0, help='gpu')
-    parser.add_argument('--use_multi_gpu', action='store_true', help='use multiple gpus', default=False)
-    parser.add_argument('--devices', type=str, default='0,1,2,3', help='device ids of multile gpus')
+    # ppo parameters
+    parser.add_argument('--ppo_epsilon', type=float, default=0.2, help='clipped epsilon')
+    parser.add_argument('--ppo_gamma', type=float, default=0.999, help='discount reward rate')
+    parser.add_argument('--ppo_optimizer', type=int, default=0, help='0:Adam, 1:SGD')
+    parser.add_argument('--ppo_updates', type=int, default=32, help='the number of updates for each collected data')
 
     args = parser.parse_args()
-
-    args.use_gpu = True if torch.cuda.is_available() and args.use_gpu else False
-
-    if args.use_gpu and args.use_multi_gpu:
-        args.dvices = args.devices.replace(' ', '')
-        device_ids = args.devices.split(',')
-        args.device_ids = [int(id_) for id_ in device_ids]
-        args.gpu = args.device_ids[0]
-
-    print('Args in experiment:')
     print(args)
-
-    # Exp = Exp_Main
-
-    if args.is_training:
-        for ii in range(args.itr):
-            # setting record of experiments
-            setting = '{}_{}_{}_ft{}_sl{}_ll{}_pl{}_dm{}_nh{}_el{}_dl{}_df{}_fc{}_eb{}_dt{}_{}_{}'.format(
-                args.model_id,
-                args.model,
-                args.data,
-                args.features,
-                args.seq_len,
-                args.label_len,
-                args.pred_len,
-                args.d_model,
-                args.n_heads,
-                args.e_layers,
-                args.d_layers,
-                args.d_ff,
-                args.factor,
-                args.embed,
-                args.distil,
-                args.des, ii)
-
-            # exp = Exp(args)  # set experiments
-            print('>>>>>>>start training : {}>>>>>>>>>>>>>>>>>>>>>>>>>>'.format(setting))
-            # exp.train(setting)
-
-            print('>>>>>>>testing : {}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'.format(setting))
-            # exp.test(setting)
-
-            if args.do_predict:
-                print('>>>>>>>predicting : {}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'.format(setting))
-                # exp.predict(setting, True)
-
-            torch.cuda.empty_cache()
-    else:
-        ii = 0
-        setting = '{}_{}_{}_ft{}_sl{}_ll{}_pl{}_dm{}_nh{}_el{}_dl{}_df{}_fc{}_eb{}_dt{}_{}_{}'.format(args.model_id,
-                                                                                                      args.model,
-                                                                                                      args.data,
-                                                                                                      args.features,
-                                                                                                      args.seq_len,
-                                                                                                      args.label_len,
-                                                                                                      args.pred_len,
-                                                                                                      args.d_model,
-                                                                                                      args.n_heads,
-                                                                                                      args.e_layers,
-                                                                                                      args.d_layers,
-                                                                                                      args.d_ff,
-                                                                                                      args.factor,
-                                                                                                      args.embed,
-                                                                                                      args.distil,
-                                                                                                      args.des, ii)
-
-        # exp = Exp(args)  # set experiments
-        print('>>>>>>>testing : {}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'.format(setting))
-        exp.test(setting, test=1)
-        torch.cuda.empty_cache()
+    path = args.order_path
+    print(path)
+    if os.path.isdir(path):
+        parameters = '{}_{}_{}_{}'.format(args.policy, args.batch_size, args.trjectory_num, args.ppo_epsilon)
+        print(parameters)
+        param = ['instance', "converge_cnt", "total_time", "min make span"]
+        simple_results = pd.DataFrame(columns=param, dtype=int)
+        for file_name in os.listdir(path):
+            print(file_name + "========================")
+            title = file_name.split('.')[0]
+            env = JobshopEnv(path, args)
+            model = Agent(env, args)
+            name = file_name.split('_')[0]
+            if args.rescheduling_mode == 0:
+                simple_results.loc[title] = model.test(name)
+            elif args.rescheduling_mode == 1:
+                simple_results.loc[title] = model.train(name, is_rescheduling=True)
+            elif args.rescheduling_mode == 2:
+                simple_results.loc[title] = model.train(title, is_rescheduling=False)
+        simple_results.to_csv(path + parameters + "_result.csv")
 
 
 if __name__ == "__main__":

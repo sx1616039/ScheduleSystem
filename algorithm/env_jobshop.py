@@ -25,11 +25,17 @@ def get_optimal(job_dict, opt_sign):
 
 
 class JobshopEnv:
-    def __init__(self, file_path, state_type=0, reward_type=0, max_pdr=12, no_op=False, snapshot_percent=-1):
+    def __init__(self, path, env_config):
         self.PDRs = {"SPT": "min", "MWKR": "max", "FDD/MWKR": "min", "MOPNR": "max", "LRM": "max", "FIFO": "max",
                      "LPT": "max", "LWKR": "min", "FDD/LWKR": "max", "LOPNR": "min", "SRM": "min", "LIFO": "min"}
         self.pdr_label = ["SPT", "MWKR", "FDD/MWKR", "MOPNR", "LRM", "FIFO",
                           "LPT", "LWKR", "FDD/LWKR", "LOPNR", "SRM", "LIFO"]
+        file_path = path
+        self.state_type = env_config.state_type
+        self.reward_type = env_config.reward_type
+        self.max_pdr = env_config.action*6+6
+        self.no_op = env_config.no_op
+        self.snapshot_percent = env_config.snapshot_percent
 
         self.case_name = os.path.basename(file_path).split('.')[0]
         with open(file_path, 'r') as f:
@@ -48,14 +54,13 @@ class JobshopEnv:
             self.job = np.array(job).reshape(self.m_n[0], self.m_n[1] * 2)
             f.close()
 
-        self.state_type = state_type
         self.state_table = None
         self.job_num = self.m_n[0]
         self.machine_num = self.m_n[1]
-        if no_op:
-            self.action_num = max_pdr+1
+        if self.no_op:
+            self.action_num = self.max_pdr+1
         else:
-            self.action_num = max_pdr
+            self.action_num = self.max_pdr
 
         self.current_time = 0  # current time
         self.next_time_on_machine = None
@@ -104,7 +109,6 @@ class JobshopEnv:
         self.done = False
         self.reward = 0
         self.no_op_cnt = 0
-        self.snapshot_percent = snapshot_percent
 
     def reset(self):
         self.current_time = 0  # current time
@@ -167,19 +171,25 @@ class JobshopEnv:
             state = np.append(state, self.current_op_of_job / self.machine_num)
             state = np.append(state, self.assignable_job)
             return state
-        elif self.state_type == 1:  # 图像特征
+        elif self.state_type == 1:  # 可行解矩阵特征
+            return np.array(self.solution_matrix).flatten()
+        elif self.state_type == 2:  # 图像特征(2通道)
+            for j in range(self.job_num):
+                for i in range(self.machine_num):
+                    self.machine_table[j][i] = self.state_table[j][i * 2] / self.machine_num
+                    self.time_table[j][i] = self.state_table[j][i * 2 + 1] / self.max_op_len
+            return np.array([self.machine_table, self.time_table])
+        elif self.state_type == 3:  # 图像特征(3通道)
             for j in range(self.job_num):
                 for i in range(self.machine_num):
                     self.machine_table[j][i] = self.state_table[j][i * 2] / self.machine_num
                     self.time_table[j][i] = self.state_table[j][i * 2 + 1] / self.max_op_len
             return np.array([self.machine_table, self.time_table, self.zero_table])
-        elif self.state_type == 2:  # 可行解矩阵特征
-            return np.array(self.solution_matrix).flatten()
 
     def step(self, action):
         self.done = False
         self.reward = 0
-        if action == len(self.pdr_label):
+        if action == self.max_pdr:
             self.no_op_cnt += 1
             self.reward -= self.time_advance()
             self.release_machine()
@@ -205,13 +215,6 @@ class JobshopEnv:
         if self.stop():
             if self.make_span > self.current_time:
                 self.make_span = self.current_time
-            # column = ["job", "machine", "start", 'end', 'width']
-            # results = pd.DataFrame(columns=column, dtype=float)
-            # j=0
-            # for k, v in self.result_dict.items():
-            #     results.loc[j] = [k[0], k[1], v[0], v[1], v[2]]
-            #     j = j + 1
-            # results.to_csv(self.case_name + "results777.csv")
             self.done = True
         return state, self.reward/self.max_op_len, self.done
 
@@ -234,7 +237,8 @@ class JobshopEnv:
                 self.assignable_job[x] = False
                 self.state_table[x][self.current_op_of_job[x] * 2] = -machine_id
         # there is no assignable jobs after assigned a job and time advance is needed
-        self.reward += process_time
+        if self.reward_type == 0 or self.reward_type == 2:
+            self.reward += process_time
         while sum(self.assignable_job) == 0 and not self.stop():
             self.reward -= self.time_advance()
             self.release_machine()
@@ -247,10 +251,11 @@ class JobshopEnv:
             self.current_time = min_next_time
         else:
             self.current_time = self.find_second_min()
-        average_machine = int((self.job_num+self.machine_num)/2)
-        # print(average_machine)
-        for i in range(average_machine-self.machine_num):
-            hole_len += self.current_time-old_time
+        if self.reward_type == 2:
+            average_machine = int((self.job_num + self.machine_num) / 2)
+            for i in range(average_machine - self.machine_num):
+                hole_len += self.current_time - old_time
+
         for machine in range(self.machine_num):
             dist_need_to_advance = self.current_time - self.next_time_on_machine[machine]
             if dist_need_to_advance > 0:
@@ -287,6 +292,15 @@ class JobshopEnv:
         if sum(self.current_op_of_job) < self.machine_num * self.job_num:
             return False
         return True
+
+    def save_gantt(self):
+        column = ["job", "machine", "start", 'end', 'width']
+        results = pd.DataFrame(columns=column, dtype=float)
+        j = 0
+        for k, v in self.result_dict.items():
+            results.loc[j] = [k[0], k[1], v[0], v[1], v[2]]
+            j = j + 1
+        results.to_csv(self.case_name + "_gantt.csv")
 
     def find_second_min(self):
         min_time = min(self.next_time_on_machine)

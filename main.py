@@ -1,3 +1,4 @@
+import math
 import os
 import time
 import numpy as np
@@ -19,18 +20,21 @@ from torch.utils.data.sampler import BatchSampler, SubsetRandomSampler
 # 函数功能：实现随机重采样算法
 # 输入参数：weight为原始数据对应的权重大小
 # 输出参数：outIndex是根据weight对inIndex筛选和复制结果
+
+
 def randomR(wt):
     L = len(wt)
-    outIndex = np.zeros(L, dtype=int)
+    index = np.zeros(L, dtype=int)
     u = np.random.uniform(0, 1, L)
     u = sorted(u)
     cdf = np.cumsum(wt)
-    i = 0
+    ri = 0
     for j in range(L):
-        while i < L and (u[i] <= cdf[j]):
-            outIndex[i] = j
-            i = i + 1
-    return outIndex
+        while ri < L and (u[i] <= cdf[j]):
+            index[i] = j
+            ri = i + 1
+    return index
+
 
 if __name__ == '__main__':
     # ------------------------------------------------基于粒子滤波的模型与数据融合 - ---------------------------------------- #
@@ -119,25 +123,26 @@ if __name__ == '__main__':
     Zpre_pf = np.zeros([numSamples, T], dtype=float)  #粒子滤波观测预测值
     weight = np.zeros([numSamples, T], dtype=float)  #权重初始化
     # 给定状态和观测预测的初始采样
-    Xpf[:, 0] = np.random.uniform(0.04, 0.046, numSamples) + v[:, 0]  #粒子滤波要先求一个初始分布，从上一时刻推下一时刻，要定义X0时刻，0
+    temp = np.random.uniform(0.04, 0.046, numSamples)
+    Xpf[:, 0] = temp + v  #粒子滤波要先求一个初始分布，从上一时刻推下一时刻，要定义X0时刻，0
     # 其实代表1，加1时刻的噪声。0.04，0.046
     # 是有限元第一个六分钟之间的，就是有限元第一个可以量到的磨损值
-    Zpre_pf[:, 0] = Xpf[:, 0]+w[:, 0]  #从初始状态中采样出k = 1 时刻的粒子
+    Zpre_pf[:, 0] = Xpf[:, 0]+w  #从初始状态中采样出k = 1 时刻的粒子
     # Yk的初始值 + 误差
     # Yk是  k = 1  时刻的磨损＋k = 1 时刻的误差，这一步就是Yk观测方程的初始化
     # 更新与预测过程    （这一步就是开始计算了）
-    for i in range(T-1):
-        k = i+1
+    for k in range(T-1):
         #第一步：粒子集合采样过程
-        for j in range(numSamples):  #得到5000个X2，.......，得到5000个X53       （产生了5000个粒子，）
-            net = 0.0907 * randn  #可调节的net（大小与测量噪声标准差相关）
-            Xparticles[i][k] = 0.3564 * pow(Xpf[i][k - 1], 3) + Xpf[i][k - 1] + net  #粒子从近似分布q(k)
+        for i in range(numSamples):  #得到5000个X2，.......，得到5000个X53       （产生了5000个粒子，）
+            net = 0.0907 * np.random.normal(0, 1)  #可调节的net（大小与测量噪声标准差相关）
+            Xparticles[i][k+1] = 0.3564 * pow(Xpf[i][k], 3) + Xpf[i][k] + net  #粒子从近似分布q(k)
             # 中进行采样，其中q(k) = p(x(k) | x(k - 1))
             #第二步：对粒子集合中的每个粒子计算其重要性权重
-        for m in range(numSamples):   #计算产生的5000个值的权重，权重是和观测值比较得出来的
-            qq = 0.029 * randn;
-            Zpre_pf[i][k] = Xparticles[i, k] + qq
-            weight[i][k] = np.exp(pow(-0.5 * 0.029, -1) * pow((Z[k][1] - Zpre_pf[i][k]), 2)) #z是观测值 pf是粒子滤波融合的值
+        for i in range(numSamples):   #计算产生的5000个值的权重，权重是和观测值比较得出来的
+            qq = 0.029 * np.random.normal(0, 1)
+            Zpre_pf[i][k] = Xparticles[i][k] + qq
+            exp = -0.5 * pow(0.029, -1) * pow((Z[k] - Zpre_pf[i][k]), 2)
+            weight[i][k] = math.exp(exp) #z是观测值 pf是粒子滤波融合的值
         weight[:, k] = weight[:, k] / sum(weight[:, k])  #权值归一化
         #第三步：选择采样策略   #重采样，筛选出权重大的粒子，权重小的粒子是无效粒子
         if ResampleStrategy == 1:   #通过重采样，选出权重大的粒子，删除权重小的粒子，最后留下的粒子，把这些粒子求个均值
@@ -146,5 +151,6 @@ if __name__ == '__main__':
             Xpf[:, k] = Xparticles[outIndex, k]
     #计算后验均值估计、最大后验估计及估计方差
     Xmean_pf = np.mean(Xpf)  #后验均值的估计，即上面的第四步，也即粒子滤波估计的最终状态
+    print(Xmean_pf)
     #  #  #  #  #  #  #  #  #  #-------------预测刀具剩余使用寿命 - ----------   #  #  #  #  #  #  #  #  ##
 

@@ -211,7 +211,7 @@ class JobEnv:
                 self.assignable_job[x] = False
                 self.state_table[x][self.current_op_of_job[x] * 2] = -machine_id
         # there is no assignable jobs after assigned a job and time advance is needed
-        # self.reward += process_time
+        self.reward += process_time
         while sum(self.assignable_job) == 0 and not self.stop():
             self.reward -= self.time_advance()
             self.release_machine()
