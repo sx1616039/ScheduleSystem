@@ -109,4 +109,4 @@ class ModelManagePanel(wx.Panel):
             if dlg == 4:
                 shutil.rmtree(self.model_path)
                 # 找到ModelManagementPanel的树结构并更新
-                self.model_tree.updateTree()
+                self.Parent.Parent.updateTree()

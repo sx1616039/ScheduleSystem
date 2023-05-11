@@ -10,7 +10,8 @@ from algorithm.env_jobshop import JobshopEnv
 from algorithm.ppo import Agent
 
 
-def main():
+def main(input_parameters=''):
+    print('hello')
     fix_seed = 2023
     random.seed(fix_seed)
     torch.manual_seed(fix_seed)
@@ -37,7 +38,7 @@ def main():
     parser.add_argument('--max_training_time', type=int, default=3600, 
                         help='training time use second unit')
     parser.add_argument('--trajectory_num', type=int, default=3, help='the capacity of training memory')
-    parser.add_argument('--rescheduling_mode', type=int, default=0,
+    parser.add_argument('--rescheduling_mode', type=int, default=2,
                         help='rescheduling_mode: 0: trained, 1: reused, 2: retrained')
     # PER parameters
     parser.add_argument('--alpha', type=float, default=0.6, help='exponent of TD-error for proportional priority')
@@ -92,19 +93,20 @@ def main():
     parser.add_argument('--ppo_optimizer', type=int, default=0, help='0:Adam, 1:SGD')
     parser.add_argument('--ppo_updates', type=int, default=32, help='the number of updates for each collected data')
 
-    args = parser.parse_args()
+    args = parser.parse_args(input_parameters.split())
     print(args)
     path = args.order_path
     print(path)
     if os.path.isdir(path):
-        parameters = '{}_{}_{}_{}'.format(args.policy, args.batch_size, args.trjectory_num, args.ppo_epsilon)
+        parameters = '{}_{}_{}_{}'.format(args.policy, args.batch_size, args.trajectory_num, args.ppo_epsilon)
         print(parameters)
         param = ['instance', "converge_cnt", "total_time", "min make span"]
         simple_results = pd.DataFrame(columns=param, dtype=int)
         for file_name in os.listdir(path):
             print(file_name + "========================")
+            file_path = os.path.join(path, file_name)
             title = file_name.split('.')[0]
-            env = JobshopEnv(path, args)
+            env = JobshopEnv(file_path, args)
             model = Agent(env, args)
             name = file_name.split('_')[0]
             if args.rescheduling_mode == 0:

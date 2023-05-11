@@ -31,8 +31,8 @@ class JobshopEnv:
         self.pdr_label = ["SPT", "MWKR", "FDD/MWKR", "MOPNR", "LRM", "FIFO",
                           "LPT", "LWKR", "FDD/LWKR", "LOPNR", "SRM", "LIFO"]
         file_path = path
-        self.state_type = env_config.state_type
-        self.reward_type = env_config.reward_type
+        self.state_type = env_config.state
+        self.reward_type = env_config.reward
         self.max_pdr = env_config.action*6+6
         self.no_op = env_config.no_op
         self.snapshot_percent = env_config.snapshot_percent

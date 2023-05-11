@@ -1,40 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d15d9adc-18a2-498f-84b9-761d8f9386e9" name="Changes" comment="model parser">
+    <list default="true" id="d15d9adc-18a2-498f-84b9-761d8f9386e9" name="Changes" comment="all code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainUI/MainFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainUI/MainFrame.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/env_jobshop.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/env_jobshop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/job_img3_re.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/job_img3_re.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la16_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la16_actor_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la16_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la16_critic_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la21_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la21_actor_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la21_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la21_critic_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la22_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la22_actor_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la22_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la22_critic_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la23_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la23_actor_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la23_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la23_critic_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la24_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la24_actor_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la24_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la24_critic_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la25_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la25_actor_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la25_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la25_critic_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la26_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la26_actor_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la26_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la26_critic_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la27_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la27_actor_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la27_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la27_critic_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la28_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la28_actor_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la28_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la28_critic_net.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/ppo_cnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/ppo_cnn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la16_la16.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la16_la16.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la21_la21.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la21_la21.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la22_la22.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la22_la22.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la23_la23.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la23_la23.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la24_la24.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la24_la24.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la25_la25.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la25_la25.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la26_la26.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la26_la26.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la27_la27.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la27_la27.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la28_la28.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la28_la28.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_management/ModelManagePanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_management/ModelManagePanel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/simulation/SimSettingPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/simulation/SimSettingPanel.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,10 +34,10 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../JSSP" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.ppo_cnn">
+  <component name="RunManager" selected="Python.MainApp">
     <configuration name="MainApp" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ScheduleSystem" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -173,9 +145,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.ppo_cnn" />
-        <item itemvalue="Python.run" />
         <item itemvalue="Python.MainApp" />
+        <item itemvalue="Python.run" />
+        <item itemvalue="Python.ppo_cnn" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.rnn_ppo" />
       </list>
@@ -330,7 +302,21 @@
       <option name="project" value="LOCAL" />
       <updated>1683623815687</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="all code">
+      <created>1683796073072</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1683796073072</updated>
+    </task>
+    <task id="LOCAL-00022" summary="all code">
+      <created>1683796115299</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1683796115299</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -358,7 +344,8 @@
     <MESSAGE value="model sim" />
     <MESSAGE value="model env_jobshop" />
     <MESSAGE value="model parser" />
-    <option name="LAST_COMMIT_MESSAGE" value="model parser" />
+    <MESSAGE value="all code" />
+    <option name="LAST_COMMIT_MESSAGE" value="all code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -105,9 +105,18 @@ class SchedulingSystem(wx.Frame):
         self.Destroy()
         self.UpdateUI(0)
 
-    def updateTree(self):
-        print("hello")
-        self.panel_order_management.navTree.updateTree()
-        self.panel_simulation.navTree.updateTree()
-        self.panel_train.navTree.updateTree()
-        self.panel_opt.navTree.updateTree()
+    def update_order_tree(self):
+        self.panel_order_management.order_tree.updateTree()
+        self.panel_model_management.order_tree.updateTree()
+        self.panel_simulation.order_tree.updateTree()
+        self.panel_train.order_tree.updateTree()
+        self.panel_opt.order_tree.updateTree()
+        self.panel_visualization.order_tree.updateTree()
+
+    def update_model_tree(self):
+        self.panel_order_management.model_tree.updateTree()
+        self.panel_model_management.model_tree.updateTree()
+        self.panel_simulation.model_tree.updateTree()
+        self.panel_train.model_tree.updateTree()
+        self.panel_opt.model_tree.updateTree()
+        self.panel_visualization.model_tree.updateTree()

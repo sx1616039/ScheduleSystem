@@ -17,6 +17,8 @@ import matplotlib.pyplot as plt
 import xml.etree.ElementTree as et
 from xml.etree.ElementTree import Element
 
+from algorithm.run import main
+
 
 class SimSettingPanel(wx.Panel):
 
@@ -24,6 +26,7 @@ class SimSettingPanel(wx.Panel):
         wx.Panel.__init__(self, parent, page_id, wx.DefaultPosition,
                           wx.DefaultSize, wx.TAB_TRAVERSAL)
         self.model_path = model_path
+        self.order_path = order_path
         ''' 第一行：订单路径按钮 '''
         file_panel = wx.Panel(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
         self.check_simulation_batches = wx.CheckBox(file_panel, label='批量仿真')
@@ -139,6 +142,8 @@ class SimSettingPanel(wx.Panel):
 
     def on_button_run(self, event):
         print("run")
+        parameters = '--order_path ' + self.order_path
+        main(parameters)
         # self.init_show_panel()
         # if self.check_simulation_batches.GetValue():
         #     file_path = self.text_file_path.GetLineText(0)
