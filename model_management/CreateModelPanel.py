@@ -240,7 +240,7 @@ class CreateModelPanel(wx.Panel):
         tree.write(file_path, encoding='utf-8', xml_declaration=True)
 
         # 找到ModelManagementPanel的树结构并更新
-        self.Parent.Parent.Parent.model_tree.updateTree()
+        self.Parent.Parent.Parent.Parent.Parent.Parent.update_model_tree()
 
     def show_MLP(self):
         self.networks_panel.DestroyChildren()

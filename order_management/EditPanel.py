@@ -71,5 +71,3 @@ class EditPanel(wx.Panel):
             jobi.append('\n')
             file.writelines(jobi)
         file.close()
-        # 找到OrderManagementPanel的树结构并更新
-        self.Parent.Parent.Parent.navTree.updateTree()

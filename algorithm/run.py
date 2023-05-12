@@ -116,6 +116,17 @@ def main(input_parameters=''):
             elif args.rescheduling_mode == 2:
                 simple_results.loc[title] = model.train(title, is_rescheduling=False)
         simple_results.to_csv(path + parameters + "_result.csv")
+    else:
+        env = JobshopEnv(path, args)
+        model = Agent(env, args)
+        title = os.path.basename(path)
+        name = title.split('_')[0]
+        if args.rescheduling_mode == 0:
+            model.test(name)
+        elif args.rescheduling_mode == 1:
+            model.train(name, is_rescheduling=True)
+        elif args.rescheduling_mode == 2:
+            model.train(title, is_rescheduling=False)
 
 
 if __name__ == "__main__":

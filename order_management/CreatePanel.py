@@ -51,7 +51,6 @@ class CreatePanel(wx.Panel):
         self.combobox_generation = wx.ComboBox(up_panel, -1, size=wx.Size(80, -1),
                                         choices=self.generation_method)
         self.combobox_generation.SetSelection(1)
-        self.combobox_generation.Bind(wx.EVT_COMBOBOX, self.on_select_combobox_generation)
 
         label_min_time = wx.StaticText(up_panel, wx.ID_ANY, u"最小加工时长:",
                                       wx.DefaultPosition, wx.DefaultSize, 0)
@@ -99,11 +98,6 @@ class CreatePanel(wx.Panel):
         self.SetSizer(main_sizer)
         self.Layout()
         self.Centre(wx.BOTH)
-        self.current_selection = self.generation_method[0]
-
-    def on_select_combobox_generation(self, event):
-        pos = self.combobox_generation.GetSelection()
-        self.current_selection = self.generation_method[pos]
 
     def on_selection_button(self, event):
         dlg = wx.DirDialog(self, u"选择文件夹", style=wx.DD_DEFAULT_STYLE)
@@ -124,9 +118,10 @@ class CreatePanel(wx.Panel):
         min_time = int(self.text_min_time.GetLineText(0))
         max_time = int(self.text_max_time.GetLineText(0))
         self.job = np.zeros([job_num, machine_num*2], dtype=int)
-        if self.current_selection == self.generation_method[1]:
+        pos = self.combobox_generation.GetSelection()
+        if pos == 1:
             for j in range(job_num):
-                machines = random.sample(range(1, machine_num+1), machine_num)
+                machines = random.sample(range(0, machine_num), machine_num)
                 print(machines)
                 for i in range(machine_num):
                     self.job[j][2*i] = machines[i]
@@ -162,4 +157,4 @@ class CreatePanel(wx.Panel):
             file.writelines(jobi)
         file.close()
         # 找到OrderManagementPanel的树结构并更新
-        self.Parent.Parent.Parent.order_tree.updateTree()
+        self.Parent.Parent.Parent.Parent.Parent.Parent.update_order_tree()

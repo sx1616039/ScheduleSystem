@@ -166,7 +166,7 @@ class Agent:
 
             input_dim = (self.env.job_num+self.env.machine_num)*2
             output_dim = self.env.action_num
-            hidden_dim = config.mlp_actor_hidden_dim
+            hidden_dim = [config.mlp_actor_hidden_dim]
             hidden_layers = config.mlp_critic_hidden_layers
             self.actor_net = MLP_Actor(input_dim, output_dim, hidden_dim, hidden_layers)
             self.critic_net = MLP_Critic(input_dim, hidden_dim)

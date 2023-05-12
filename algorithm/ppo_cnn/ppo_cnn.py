@@ -15,15 +15,17 @@ from job_img3_re import JobEnv
 class Actor(nn.Module):
     def __init__(self, height, width, num_output, input_channel=3, out_channel=8):
         super(Actor, self).__init__()
-        self.conv1 = nn.Sequential(nn.Conv2d(input_channel, 16, kernel_size=(5, 5), padding=2), nn.ReLU(),
+        self.conv1 = nn.Sequential(nn.Conv2d(input_channel, 8, kernel_size=(5, 5), padding=2), nn.ReLU())
+        self.conv2 = nn.Sequential(nn.Conv2d(8, out_channel, kernel_size=(5, 5), padding=2), nn.ReLU(),
                                    nn.MaxPool2d(2))
-        self.conv2 = nn.Sequential(nn.Conv2d(16, out_channel, kernel_size=(5, 5), padding=2), nn.ReLU(),
+        self.conv3 = nn.Sequential(nn.Conv2d(8, out_channel, kernel_size=(5, 5), padding=2), nn.ReLU(),
                                    nn.MaxPool2d(2))
         self.action_head = nn.Linear(out_channel*int(height/4)*int(width/4), num_output)
 
     def forward(self, x):
         x = self.conv1(x)
         x = self.conv2(x)
+        x = self.conv3(x)
         x = x.view(x.size(0), -1)
         action_prob = F.softmax(self.action_head(x), dim=1)
         return action_prob
@@ -243,25 +245,10 @@ class PPO:
             self.save_params(data_set)
         return min(converged_value), converged, time.time() - t0, min_make_span
 
-    def test(self, data_set):
-        self.load_params(data_set)
-        converged_value = []
-        for ci in range(30):
-            state = self.env.reset()
-            while True:
-                action, _ = self.select_action(state)
-                next_state, reward, done = self.env.step(action)
-                state = next_state
-                if done:
-                    break
-            # print(self.env.current_time)
-            converged_value.append(env.current_time)
-        return min(converged_value), 0, 0, 0
-
 
 if __name__ == '__main__':
     # training policy
-    parameters = "area-5202-3-1"
+    parameters = "area-31025-5-2-0.999"
     path = "../data_set_sizes/"
     print(parameters)
     param = [parameters, "converge_cnt", "total_time", "min make span"]
@@ -274,7 +261,7 @@ if __name__ == '__main__':
             name = file_name.split('_')[0]
             env = JobEnv(title, path)
             scale = env.job_num * env.machine_num
-            model = PPO(env, memory_size=5, batch_size=2 * scale, clip_ep=0.2)
+            model = PPO(env, memory_size=5, batch_size=2 * scale, clip_ep=0.25)
             simple_results.loc[title] = model.train(title, save_params=True)
             # simple_results.loc[title] = model.train(name, save_params=False)
             # simple_results.loc[title] = model.test(name)

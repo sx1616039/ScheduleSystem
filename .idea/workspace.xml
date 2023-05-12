@@ -1,13 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d15d9adc-18a2-498f-84b9-761d8f9386e9" name="Changes" comment="all code">
+    <list default="true" id="d15d9adc-18a2-498f-84b9-761d8f9386e9" name="Changes" comment="run">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainUI/MainFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainUI/MainFrame.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/env_jobshop.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/env_jobshop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la01_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la01_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la01_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la01_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la06_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la06_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la06_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la06_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la11_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la11_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la11_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la11_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la16_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la16_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la16_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la16_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la21_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la21_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la21_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la21_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la22_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la22_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la22_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la22_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la23_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la23_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la23_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la23_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la24_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la24_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la24_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la24_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la25_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la25_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la25_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la25_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la26_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la26_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la26_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la26_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la27_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la27_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la27_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la27_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la28_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la28_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la28_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la28_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la29_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la29_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la29_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la29_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la30_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la30_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la30_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la30_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la31_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la31_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la31_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la31_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la32_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la32_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la32_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la32_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la33_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la33_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la33_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la33_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la34_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la34_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la34_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la34_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la35_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la35_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la35_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la35_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la36_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la36_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la36_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la36_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la37_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la37_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la37_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la37_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la38_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la38_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la38_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la38_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la39_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la39_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la39_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la39_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la40_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la40_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la40_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/la40_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/ta21_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/ta21_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/ta21_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/ta21_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/ta22_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/ta22_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/ta22_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/ta22_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/ta31_actor_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/ta31_actor_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/param/ta31_critic_net.model" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/param/ta31_critic_net.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/ppo_cnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/ppo_cnn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la01_la01.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la01_la01.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la06_la06.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la06_la06.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la11_la11.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la11_la11.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la16_la16.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la16_la16.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la21_la21.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la21_la21.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la22_la22.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la22_la22.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la23_la23.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la23_la23.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la24_la24.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la24_la24.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la25_la25.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la25_la25.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la26_la26.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la26_la26.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la27_la27.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la27_la27.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la28_la28.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la28_la28.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la29_la29.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la29_la29.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la30_la30.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la30_la30.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la31_la31.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la31_la31.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la32_la32.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la32_la32.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la33_la33.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la33_la33.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la34_la34.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la34_la34.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la35_la35.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la35_la35.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la36_la36.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la36_la36.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la37_la37.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la37_la37.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la38_la38.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la38_la38.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la39_la39.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la39_la39.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la40_la40.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/la40_la40.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/ta21_ta21.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/ta21_ta21.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/ta22_ta22.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/ta22_ta22.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ppo_cnn/results/ta31_ta31.csv" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ppo_cnn/results/ta31_ta31.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_management/ModelManagePanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_management/ModelManagePanel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulation/SimSettingPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/simulation/SimSettingPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_management/CreateModelPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_management/CreateModelPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_management/EditPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_management/EditPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_management/ModelNotebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_management/ModelNotebook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_management/OpenPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_management/OpenPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order_management/CreatePanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/CreatePanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order_management/DeletePanel.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/order_management/EditPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/EditPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order_management/OrderManagePanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/OrderManagePanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order_management/OrderNotebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/OrderNotebook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order_management/UncertainOrderPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/order_management/UncertainOrderPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/abz5_25.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/abz5_25_a_10_25_.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/新订单1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/新订单21_a_10_25_c_1_6_1_99_.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,8 +239,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.MainApp" />
-        <item itemvalue="Python.run" />
         <item itemvalue="Python.ppo_cnn" />
+        <item itemvalue="Python.run" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.rnn_ppo" />
       </list>
@@ -316,7 +409,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683796115299</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="run">
+      <created>1683808605005</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1683808605005</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -345,7 +445,8 @@
     <MESSAGE value="model env_jobshop" />
     <MESSAGE value="model parser" />
     <MESSAGE value="all code" />
-    <option name="LAST_COMMIT_MESSAGE" value="all code" />
+    <MESSAGE value="run" />
+    <option name="LAST_COMMIT_MESSAGE" value="run" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

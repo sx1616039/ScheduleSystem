@@ -335,6 +335,13 @@ class EditPanel(wx.Panel):
 
     def show_SPP(self):
         self.networks_panel.DestroyChildren()
+
+        SPP_Actor = self.root.find('Actor_SPP')
+        kernel_size = SPP_Actor.get('kernel_size')
+        input_channel = SPP_Actor.get('input_channel')
+        output_channel = SPP_Actor.get('output_channel')
+        padding = SPP_Actor.get('padding')
+
         label_actor = wx.StaticText(self.networks_panel, wx.ID_ANY, u"Actor网络参数:", wx.DefaultPosition,
                                     wx.DefaultSize, 0)
         label_conv = wx.StaticText(self.networks_panel, wx.ID_ANY, u"卷积层网络参数:", wx.DefaultPosition,
@@ -344,25 +351,25 @@ class EditPanel(wx.Panel):
         self.kernel_sizes = ['5x5', '3x3', '1x1']
         self.combobox_kernel_size = wx.ComboBox(self.networks_panel, -1, size=wx.Size(80, -1),
                                                 choices=self.kernel_sizes)
-        self.combobox_kernel_size.SetSelection(0)
+        self.combobox_kernel_size.SetSelection(int(kernel_size))
         # 输入通道数
         label_input_channel = wx.StaticText(self.networks_panel, wx.ID_ANY, u"输入通道数:", wx.DefaultPosition,
                                             wx.DefaultSize, 0)
         self.text_input_channel = wx.TextCtrl(self.networks_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25),
                                               style=wx.TE_LEFT)
-        self.text_input_channel.AppendText('3')
+        self.text_input_channel.AppendText(input_channel)
 
         label_output_channel = wx.StaticText(self.networks_panel, wx.ID_ANY, u"输出通道数:", wx.DefaultPosition,
                                              wx.DefaultSize, 0)
         self.text_output_channel = wx.TextCtrl(self.networks_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25),
                                                style=wx.TE_LEFT)
-        self.text_output_channel.AppendText('16')
+        self.text_output_channel.AppendText(output_channel)
 
         label_padding = wx.StaticText(self.networks_panel, wx.ID_ANY, u"填充数(padding):", wx.DefaultPosition,
                                       wx.DefaultSize, 0)
         self.text_padding = wx.TextCtrl(self.networks_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25),
                                         style=wx.TE_LEFT)
-        self.text_padding.AppendText('2')
+        self.text_padding.AppendText(padding)
 
         conv_box = wx.BoxSizer(wx.HORIZONTAL)
         conv_box.Add((30, 20))
@@ -377,6 +384,10 @@ class EditPanel(wx.Panel):
         conv_box.Add(self.text_padding, 5, wx.ALL | wx.EXPAND, 5)
 
         # SPP层
+        SPP_Actor = self.root.find('Actor_SPP')
+        spp_level = SPP_Actor.get('spp_level')
+        pooling_type = SPP_Actor.get('pooling_type')
+
         label_spp = wx.StaticText(self.networks_panel, wx.ID_ANY, u"SPP层网络参数:", wx.DefaultPosition,
                                   wx.DefaultSize, 0)
         # 输入通道数
@@ -384,14 +395,14 @@ class EditPanel(wx.Panel):
                                         wx.DefaultSize, 0)
         self.text_spp_level = wx.TextCtrl(self.networks_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25),
                                           style=wx.TE_LEFT)
-        self.text_spp_level.AppendText('4')
+        self.text_spp_level.AppendText(spp_level)
 
         label_pooling_type = wx.StaticText(self.networks_panel, wx.ID_ANY, u"池化类型:", wx.DefaultPosition,
                                            wx.DefaultSize, 0)
         self.pooling_type = ['最大池化', '平均池化']
         self.combobox_pooling_type = wx.ComboBox(self.networks_panel, -1, size=wx.Size(80, -1),
                                                  choices=self.pooling_type)
-        self.combobox_pooling_type.SetSelection(0)
+        self.combobox_pooling_type.SetSelection(int(pooling_type))
 
         spp_box = wx.BoxSizer(wx.HORIZONTAL)
         spp_box.Add((30, 20))
@@ -402,31 +413,37 @@ class EditPanel(wx.Panel):
         spp_box.Add(self.combobox_pooling_type, 5, wx.ALL | wx.EXPAND, 5)
 
         # 全连接层
+        SPP_Actor = self.root.find('Actor_SPP')
+        full_connect_dim = SPP_Actor.get('full_connect_dim')
+        full_connect_layers = SPP_Actor.get('full_connect_layers')
+        lr = SPP_Actor.get('lr')
+        activation = SPP_Actor.get('activation')
+
         label_full_connect = wx.StaticText(self.networks_panel, wx.ID_ANY, u"全连接层网络参数:", wx.DefaultPosition,
                                            wx.DefaultSize, 0)
         label_full_connect_num = wx.StaticText(self.networks_panel, wx.ID_ANY, u"全连接层数:", wx.DefaultPosition,
                                                wx.DefaultSize, 0)
         self.text_full_connect_num = wx.TextCtrl(self.networks_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25),
                                                  style=wx.TE_LEFT)
-        self.text_full_connect_num.AppendText('1')
+        self.text_full_connect_num.AppendText(full_connect_layers)
 
         label_full_connect_dim = wx.StaticText(self.networks_panel, wx.ID_ANY, u"全连接层维度:", wx.DefaultPosition,
                                                wx.DefaultSize, 0)
         self.text_full_connect_dim = wx.TextCtrl(self.networks_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25),
                                                  style=wx.TE_LEFT)
-        self.text_full_connect_dim.AppendText('12')
+        self.text_full_connect_dim.AppendText(full_connect_dim)
         label_actor_lr = wx.StaticText(self.networks_panel, wx.ID_ANY, u"学习率:", wx.DefaultPosition,
                                        wx.DefaultSize, 0)
         self.text_actor_lr = wx.TextCtrl(self.networks_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25),
                                          style=wx.TE_LEFT)
-        self.text_actor_lr.AppendText('1e-3')
+        self.text_actor_lr.AppendText(lr)
         # activation function
         self.activation_functions = ['Relu', 'LeakyRelu', 'Softmax', 'Tanh']
         label_actor_af = wx.StaticText(self.networks_panel, wx.ID_ANY, u"激活函数:", wx.DefaultPosition,
                                        wx.DefaultSize, 0)
         self.combobox_actor_af = wx.ComboBox(self.networks_panel, -1, size=wx.Size(80, -1),
                                              choices=self.activation_functions)
-        self.combobox_actor_af.SetSelection(0)
+        self.combobox_actor_af.SetSelection(int(activation))
 
         full_connect_box = wx.BoxSizer(wx.HORIZONTAL)
         full_connect_box.Add((30, 20))
@@ -441,6 +458,12 @@ class EditPanel(wx.Panel):
         full_connect_box.Add(self.combobox_actor_af, 5, wx.ALL | wx.EXPAND, 5)
 
         # Critic网络参数
+        SPP_Critic = self.root.find('Critic_SPP')
+        kernel_size = SPP_Critic.get('kernel_size')
+        input_channel = SPP_Critic.get('input_channel')
+        output_channel = SPP_Critic.get('output_channel')
+        padding = SPP_Critic.get('padding')
+
         label_critic = wx.StaticText(self.networks_panel, wx.ID_ANY, u"Critic网络参数:", wx.DefaultPosition,
                                      wx.DefaultSize, 0)
         label_critic_conv = wx.StaticText(self.networks_panel, wx.ID_ANY, u"卷积层网络参数:", wx.DefaultPosition,
@@ -449,25 +472,25 @@ class EditPanel(wx.Panel):
                                                  wx.DefaultSize, 0)
         self.combobox_critic_kernel_size = wx.ComboBox(self.networks_panel, -1, size=wx.Size(80, -1),
                                                        choices=self.kernel_sizes)
-        self.combobox_critic_kernel_size.SetSelection(0)
+        self.combobox_critic_kernel_size.SetSelection(int(kernel_size))
         # 输入通道数
         label_critic_input_channel = wx.StaticText(self.networks_panel, wx.ID_ANY, u"输入通道数:", wx.DefaultPosition,
                                                    wx.DefaultSize, 0)
         self.text_critic_input_channel = wx.TextCtrl(self.networks_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25),
                                                      style=wx.TE_LEFT)
-        self.text_critic_input_channel.AppendText('3')
+        self.text_critic_input_channel.AppendText(input_channel)
 
         label_critic_output_channel = wx.StaticText(self.networks_panel, wx.ID_ANY, u"输出通道数:", wx.DefaultPosition,
                                                     wx.DefaultSize, 0)
         self.text_critic_output_channel = wx.TextCtrl(self.networks_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25),
                                                       style=wx.TE_LEFT)
-        self.text_critic_output_channel.AppendText('16')
+        self.text_critic_output_channel.AppendText(output_channel)
 
         label_critic_padding = wx.StaticText(self.networks_panel, wx.ID_ANY, u"填充数(padding):", wx.DefaultPosition,
                                              wx.DefaultSize, 0)
         self.text_critic_padding = wx.TextCtrl(self.networks_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25),
                                                style=wx.TE_LEFT)
-        self.text_critic_padding.AppendText('2')
+        self.text_critic_padding.AppendText(padding)
 
         critic_conv_box = wx.BoxSizer(wx.HORIZONTAL)
         critic_conv_box.Add((30, 20))
@@ -482,6 +505,9 @@ class EditPanel(wx.Panel):
         critic_conv_box.Add(self.text_critic_padding, 5, wx.ALL | wx.EXPAND, 5)
 
         # SPP层
+        SPP_Critic = self.root.find('Critic_SPP')
+        spp_level = SPP_Critic.get('spp_level')
+        pooling_type = SPP_Critic.get('pooling_type')
         label_critic_spp = wx.StaticText(self.networks_panel, wx.ID_ANY, u"SPP层网络参数:", wx.DefaultPosition,
                                          wx.DefaultSize, 0)
         # 输入通道数
@@ -489,14 +515,14 @@ class EditPanel(wx.Panel):
                                                wx.DefaultSize, 0)
         self.text_critic_spp_level = wx.TextCtrl(self.networks_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25),
                                                  style=wx.TE_LEFT)
-        self.text_critic_spp_level.AppendText('4')
+        self.text_critic_spp_level.AppendText(spp_level)
 
         label_critic_pooling_type = wx.StaticText(self.networks_panel, wx.ID_ANY, u"池化类型:", wx.DefaultPosition,
                                                   wx.DefaultSize, 0)
         self.critic_pooling_type = {'最大池化', '平均池化'}
         self.combobox_critic_pooling_type = wx.ComboBox(self.networks_panel, -1, size=wx.Size(80, -1),
                                                         choices=self.pooling_type)
-        self.combobox_critic_pooling_type.SetSelection(0)
+        self.combobox_critic_pooling_type.SetSelection(int(pooling_type))
 
         critic_spp_box = wx.BoxSizer(wx.HORIZONTAL)
         critic_spp_box.Add((30, 20))
@@ -507,31 +533,36 @@ class EditPanel(wx.Panel):
         critic_spp_box.Add(self.combobox_critic_pooling_type, 5, wx.ALL | wx.EXPAND, 5)
 
         # 全连接层
+        SPP_Critic = self.root.find('Critic_SPP')
+        full_connect_dim = SPP_Critic.get('full_connect_dim')
+        full_connect_layers = SPP_Critic.get('full_connect_layers')
+        lr = SPP_Critic.get('lr')
+        activation = SPP_Critic.get('activation')
         label_critic_full_connect = wx.StaticText(self.networks_panel, wx.ID_ANY, u"全连接层网络参数:", wx.DefaultPosition,
                                                   wx.DefaultSize, 0)
         label_critic_full_connect_num = wx.StaticText(self.networks_panel, wx.ID_ANY, u"全连接层数:", wx.DefaultPosition,
                                                       wx.DefaultSize, 0)
         self.text_critic_full_connect_num = wx.TextCtrl(self.networks_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25),
                                                         style=wx.TE_LEFT)
-        self.text_critic_full_connect_num.AppendText('1')
+        self.text_critic_full_connect_num.AppendText(full_connect_layers)
 
         label_critic_full_connect_dim = wx.StaticText(self.networks_panel, wx.ID_ANY, u"全连接层维度:", wx.DefaultPosition,
                                                       wx.DefaultSize, 0)
         self.text_critic_full_connect_dim = wx.TextCtrl(self.networks_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25),
                                                         style=wx.TE_LEFT)
-        self.text_critic_full_connect_dim.AppendText('12')
+        self.text_critic_full_connect_dim.AppendText(full_connect_dim)
 
         label_critic_lr = wx.StaticText(self.networks_panel, wx.ID_ANY, u"学习率:", wx.DefaultPosition,
                                         wx.DefaultSize, 0)
         self.text_critic_lr = wx.TextCtrl(self.networks_panel, wx.ID_ANY, pos=(0, 30), size=(50, 25),
                                           style=wx.TE_LEFT)
-        self.text_critic_lr.AppendText('3e-3')
+        self.text_critic_lr.AppendText(lr)
         # activation function
         label_critic_af = wx.StaticText(self.networks_panel, wx.ID_ANY, u"激活函数:", wx.DefaultPosition,
                                         wx.DefaultSize, 0)
         self.combobox_critic_af = wx.ComboBox(self.networks_panel, -1, size=wx.Size(80, -1),
                                               choices=self.activation_functions)
-        self.combobox_critic_af.SetSelection(0)
+        self.combobox_critic_af.SetSelection(int(activation))
 
         critic_full_connect_box = wx.BoxSizer(wx.HORIZONTAL)
         critic_full_connect_box.Add((30, 20))

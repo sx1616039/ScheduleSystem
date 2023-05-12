@@ -7,7 +7,7 @@ import os
 from wx import aui
 import wx
 import wx.grid
-from order_management import OpenPanel, EditPanel, DeletePanel, UncertainOrderPanel
+from order_management import OpenPanel, EditPanel, UncertainOrderPanel
 from order_management import CreatePanel
 
 
@@ -53,14 +53,6 @@ class OrderNotebook(aui.AuiNotebook):
             model_name = os.path.basename(order_path).split('.')[0]
             page_title = "%s: %s" % (title, model_name)
             self.AddPage(new_panel, page_title, True, wx.NullBitmap)
-
-    def show_delete_page(self, order_path, title):
-        page_id = hash(order_path+title) % 32000
-        if self.is_new_page(page_id):
-            delete_panel = DeletePanel.DeletePanel(self, order_path, page_id)
-            model_name = os.path.basename(order_path).split('.')[0]
-            page_title = "%s: %s" % (title, model_name)
-            self.AddPage(delete_panel, page_title, True, wx.NullBitmap)
 
     def show_uncertain_order_page(self, order_path, title):
         page_id = hash(order_path+title) % 32000

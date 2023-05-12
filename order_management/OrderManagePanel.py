@@ -105,11 +105,15 @@ class OrderManagePanel(wx.Panel):
 
     def on_button_edit(self, event):
         if self.is_selected():
-            self.orderNotebook.show_edit_page(self.order_path,self.btn_edit.GetLabel())
+            self.orderNotebook.show_edit_page(self.order_path, self.btn_edit.GetLabel())
 
     def on_button_delete(self, event):
         if self.is_selected():
-            self.orderNotebook.show_delete_page(self.order_path, self.btn_delete.GetLabel())
+            dlg = wx.MessageBox("确认删除该订单", "提示", wx.OK | wx.ICON_INFORMATION | wx.CANCEL)
+            if dlg == 4:
+                os.remove(self.order_path)
+                # 找到OrderManagementPanel的树结构并更新
+                self.Parent.Parent.Parent.update_order_tree()
 
     def on_button_uncertain_order(self, event):
         selected_order = self.order_tree.GetItemData(self.order_tree.GetSelection())

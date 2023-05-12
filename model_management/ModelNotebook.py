@@ -38,7 +38,7 @@ class ModelNotebook(aui.AuiNotebook):
             self.AddPage(new_panel, title, True, wx.NullBitmap)
 
     def show_open_page(self, title, model_path):
-        page_id = hash(model_path) % 32000
+        page_id = hash(model_path+title) % 32000
         if self.is_new_page(page_id):
             new_panel = OpenPanel.OpenPanel(self, model_path, page_id)
             model_name = os.path.basename(model_path).split('.')[0]
@@ -46,7 +46,7 @@ class ModelNotebook(aui.AuiNotebook):
             self.AddPage(new_panel, page_title, True, wx.NullBitmap)
 
     def show_edit_page(self, title, model_path):
-        page_id = hash(model_path) % 32000
+        page_id = hash(model_path+title) % 32000
         if self.is_new_page(page_id):
             new_panel = EditPanel.EditPanel(self, model_path, page_id)
             model_name = os.path.basename(model_path).split('.')[0]

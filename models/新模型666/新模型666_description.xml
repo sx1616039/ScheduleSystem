@@ -1,2 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<DRL_model><Actor_MLP activation="0" dim="1" layers="1" lr="1e-3" /><Critic_MLP activation="0" dim="1" layers="1" lr="3e-3" /><base action="0" policy="0" reward="0" state="0" /><ppo epsilon="0.2" gamma="1" optimizer="0" updates="10" /></DRL_model>
