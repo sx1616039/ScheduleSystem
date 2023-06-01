@@ -22,34 +22,34 @@ class VisualizationPanel(wx.Panel):
         calib_panel.SetSizer(tab_sizer)
 
         font_button = wx.Font(11, wx.ROMAN, wx.NORMAL, wx.NORMAL, False)
-        self.btn_model = wx.Button(calib_panel, wx.ID_ANY, u"回报分析",
+        self.btn_reward_analysis = wx.Button(calib_panel, wx.ID_ANY, u"回报分析",
                                 wx.DefaultPosition, wx.DefaultSize, 0)
-        self.btn_model.SetFont(font_button)
-        self.btn_model.SetBitmap(wx.Bitmap('icon/metamodel.ico'))
-        self.Bind(wx.EVT_BUTTON, self.on_button_model, self.btn_model)
+        self.btn_reward_analysis.SetFont(font_button)
+        self.btn_reward_analysis.SetBitmap(wx.Bitmap('icon/metamodel.ico'))
+        self.Bind(wx.EVT_BUTTON, self.on_button_reward_analysis, self.btn_reward_analysis)
 
-        self.btn_opt = wx.Button(calib_panel, wx.ID_ANY, u"时间对比",
+        self.btn_time_analysis = wx.Button(calib_panel, wx.ID_ANY, u"时间对比",
                                  wx.DefaultPosition, wx.DefaultSize, 0)
-        self.btn_opt.SetFont(font_button)
-        self.btn_opt.SetBitmap(wx.Bitmap('icon/optimize.ico'))
-        self.Bind(wx.EVT_BUTTON, self.on_button_opt, self.btn_opt)
+        self.btn_time_analysis.SetFont(font_button)
+        self.btn_time_analysis.SetBitmap(wx.Bitmap('icon/optimize.ico'))
+        self.Bind(wx.EVT_BUTTON, self.on_button_time_analysis, self.btn_time_analysis)
 
-        self.btn_view = wx.Button(calib_panel, wx.ID_ANY, u"收敛性分析",
+        self.btn_conv_analysis = wx.Button(calib_panel, wx.ID_ANY, u"收敛性分析",
                                  wx.DefaultPosition, wx.DefaultSize, 0)
-        self.btn_view.SetFont(font_button)
-        self.btn_view.SetBitmap(wx.Bitmap('icon/metamodel.ico'))
-        self.Bind(wx.EVT_BUTTON, self.on_button_view, self.btn_view)
+        self.btn_conv_analysis.SetFont(font_button)
+        self.btn_conv_analysis.SetBitmap(wx.Bitmap('icon/metamodel.ico'))
+        self.Bind(wx.EVT_BUTTON, self.on_button_conv_analysis, self.btn_conv_analysis)
 
-        self.btn_explore = wx.Button(calib_panel, wx.ID_ANY, u"结果对比",
+        self.btn_results = wx.Button(calib_panel, wx.ID_ANY, u"结果对比",
                                   wx.DefaultPosition, wx.DefaultSize, 0)
-        self.btn_explore.SetFont(font_button)
-        self.btn_explore.SetBitmap(wx.Bitmap('icon/optimize.ico'))
-        self.Bind(wx.EVT_BUTTON, self.on_button_explore, self.btn_explore)
+        self.btn_results.SetFont(font_button)
+        self.btn_results.SetBitmap(wx.Bitmap('icon/optimize.ico'))
+        self.Bind(wx.EVT_BUTTON, self.on_button_results, self.btn_results)
 
-        tab_sizer.Add(self.btn_model, 0, wx.ALL, 5)
-        tab_sizer.Add(self.btn_opt, 0, wx.ALL, 5)
-        tab_sizer.Add(self.btn_view, 0, wx.ALL, 5)
-        tab_sizer.Add(self.btn_explore, 0, wx.ALL, 5)
+        tab_sizer.Add(self.btn_reward_analysis, 0, wx.ALL, 5)
+        tab_sizer.Add(self.btn_time_analysis, 0, wx.ALL, 5)
+        tab_sizer.Add(self.btn_conv_analysis, 0, wx.ALL, 5)
+        tab_sizer.Add(self.btn_results, 0, wx.ALL, 5)
 
         # 下方导航树及展示界面panel
         show_panel = wx.Panel(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
@@ -83,23 +83,23 @@ class VisualizationPanel(wx.Panel):
                 self.order_path = self.order_tree.GetItemData(self.order_tree.GetSelection())
                 return True
         except:
-            dlg = wx.MessageDialog(None, message='请先选择一个仿真模型', caption='warning')
+            dlg = wx.MessageDialog(None, message='请先选择一个仿真模型', caption='提示')
             dlg.ShowModal()
             return False
         return True
 
-    def on_button_model(self, event):
+    def on_button_reward_analysis(self, event):
         if self.is_selected():
             self.showNotebook.show_modeling_page()
 
-    def on_button_opt(self, event):
+    def on_button_time_analysis(self, event):
         if self.is_selected():
             self.showNotebook.show_opt_page()
 
-    def on_button_view(self, event):
+    def on_button_conv_analysis(self, event):
         if self.is_selected():
             self.showNotebook.show_view_page()
 
-    def on_button_explore(self, event):
+    def on_button_results(self, event):
         if self.is_selected():
             self.showNotebook.show_explore_page()

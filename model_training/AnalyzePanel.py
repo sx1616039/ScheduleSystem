@@ -127,7 +127,9 @@ class AnalyzePanel(wx.Panel):
         job_labels = []  # 生成图例标签
         dict = np.zeros(round(max(job)), dtype=int)
         handles = []
+        random.seed(1)
         colors = ['#%06X' % random.randint(0, 256 ** 3 - 1) for _ in range(200)]
+        # colors = ['#%06X' % random.randint(0, 256 ** 3 - 1) for _ in range(200)]
         for i in range(len(job)):
             if dict[round(job[i]-1)] == 0:
                 job_labels.append("作业" + str(round(job[i])))
@@ -139,8 +141,9 @@ class AnalyzePanel(wx.Panel):
                 self.axes_gantt.barh(y=machine[i], width=width[i], left=start[i], edgecolor="black",
                                      color=colors[round(job[i])])
         x, length = self.axes_gantt.get_xlim()
-        self.axes_gantt.set_xlim(0, length+100)
-        self.axes_gantt.legend(handles=handles, labels=job_labels, loc='upper right')
+        self.axes_gantt.set_xlim(0, length)
+        # self.axes_gantt.set_xlim(0, length + 100)
+        self.axes_gantt.legend(handles=handles, labels=job_labels, loc='upper right', bbox_to_anchor=(1.1, 1))
         self.axes_gantt.set(xlabel=u'时间', ylabel=u'机器编号', title=u'甘特图')
         self.notebook_analyzing.Show()
         self.show_panel.Layout()

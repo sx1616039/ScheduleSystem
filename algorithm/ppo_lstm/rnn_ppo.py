@@ -14,18 +14,22 @@ from env_solution import JobEnv
 class Actor(nn.Module):
     def __init__(self, input_num, hidden_num, num_output):
         super(Actor, self).__init__()
-        self.rnn = nn.LSTM(  # if use nn.RNN(), it hardly learns
+        self.rnn = nn.RNN(  # if use nn.RNN(), it hardly learns
             input_size=input_num,
             hidden_size=hidden_num,  # rnn hidden unit
             num_layers=1,  # number of rnn layer
             batch_first=True,  # input & output will has batch size as 1s dimension. e.g. (batch, time_step, input_size)
         )
+        self.fc1 = nn.Linear(hidden_num, hidden_num)
         self.action_head = nn.Linear(hidden_num, num_output)
 
-    def forward(self, x):
+    def forward(self, x, h_state=None):
         # r_out, (h_n, h_c) = self.rnn(x, None)
-        r_out, (h_n, h_c) = self.rnn(x.view(len(x), 1, -1), None)
-        out = self.action_head(r_out[:, -1, :])
+        r_out, h_state = self.rnn(x.view(len(x), 1, -1), h_state)
+        # r_out, (h_n, h_c) = self.rnn(x.view(len(x), 1, -1), hidden)
+        x = r_out[:, -1, :]
+        x = F.relu(self.fc1(x))
+        out = self.action_head(x)
         action_prob = F.softmax(out, dim=1)
         return action_prob
 
@@ -33,18 +37,22 @@ class Actor(nn.Module):
 class Critic(nn.Module):
     def __init__(self, input_num, hidden_num, num_output=1):
         super(Critic, self).__init__()
-        self.rnn = nn.LSTM(  # if use nn.RNN(), it hardly learns
+        self.rnn = nn.RNN(  # if use nn.RNN(), it hardly learns
             input_size=input_num,
             hidden_size=hidden_num,  # rnn hidden unit
             num_layers=1,  # number of rnn layer
             batch_first=True,  # input & output will has batch size as 1s dimension. e.g. (batch, time_step, input_size)
         )
+        self.fc1 = nn.Linear(hidden_num, hidden_num)
         self.state_value = nn.Linear(hidden_num, num_output)
 
-    def forward(self, x):
+    def forward(self, x, h_state=None):
         # r_out, (h_n, h_c) = self.rnn(x, None)
-        r_out, (h_n, h_c) = self.rnn(x.view(len(x), 1, -1), None)
-        value = self.state_value(r_out[:, -1, :])
+        r_out, h_state = self.rnn(x.view(len(x), 1, -1), h_state)
+        # r_out, (h_n, h_c) = self.rnn(x.view(len(x), 1, -1), None)
+        x = r_out[:, -1, :]
+        x = F.relu(self.fc1(x))
+        value = self.state_value(x)
         return value
 
 
@@ -65,9 +73,10 @@ class PPO:
         self.max_grad_norm = 0.5
         self.training_step = 0
 
-        state_dim = self.env.job_num*self.env.machine_num
-        self.actor_net = Actor(state_dim, state_dim, self.action_dim)
-        self.critic_net = Critic(state_dim, state_dim,)
+        state_dim = self.env.state_num
+        hidden_num = self.env.state_num
+        self.actor_net = Actor(state_dim, hidden_num, self.action_dim)
+        self.critic_net = Critic(state_dim, hidden_num,)
         self.actor_optimizer = optimizer.Adam(self.actor_net.parameters(), self.A_LR)
         self.critic_net_optimizer = optimizer.Adam(self.critic_net.parameters(), self.C_LR)
 
@@ -82,7 +91,7 @@ class PPO:
         self.beta_increment = (self.upper_bound - self.beta) / self.convergence_episode
         self.train_steps = 0
         self.max_batch_size = 600
-        self.PER_NUM = 2
+        self.PER_NUM = 1
 
     def select_action(self, state):
         state_tensor = torch.tensor(np.array(state), dtype=torch.float)
@@ -158,15 +167,15 @@ class PPO:
             for index in BatchSampler(SubsetRandomSampler(range(len(ba))), self.batch_size, False):
                 self.priorities[index] = self.learn(state[index], action[index], d_reward[index], old_log_prob[index])
             # priority replay
-            # for w in range(self.PER_NUM):
-            #     prob1 = self.priorities / np.sum(self.priorities)
-            #     indices = np.random.choice(len(prob1), min(self.max_batch_size, self.batch_size), p=prob1)
-            #     weights = (len(ba) * prob1[indices]) ** (- self.beta)
-            #     if self.beta < self.upper_bound:
-            #         self.beta += self.beta_increment
-            #     weights = weights / np.max(weights)
-            #     weights = np.array(weights, dtype=np.float32)
-            #     self.learn(state[indices], action[indices], d_reward[indices], old_log_prob[indices], weights)
+            for w in range(self.PER_NUM):
+                prob1 = self.priorities / np.sum(self.priorities)
+                indices = np.random.choice(len(prob1), min(self.max_batch_size, self.batch_size), p=prob1)
+                weights = (len(ba) * prob1[indices]) ** (- self.beta)
+                if self.beta < self.upper_bound:
+                    self.beta += self.beta_increment
+                weights = weights / np.max(weights)
+                weights = np.array(weights, dtype=np.float32)
+                self.learn(state[indices], action[indices], d_reward[indices], old_log_prob[indices], weights)
 
     def train(self, data_set, save_params=False):
         if not save_params:
@@ -250,7 +259,7 @@ class PPO:
 
 if __name__ == '__main__':
     # training policy
-    parameters = "rnn-3102"
+    parameters = "rnn-1-0999"
     path = "../data_set_sizes/"
     print(parameters)
     param = [parameters, "converge_cnt", "total_time", "min make span"]
@@ -263,7 +272,7 @@ if __name__ == '__main__':
             name = file_name.split('_')[0]
             env = JobEnv(title, path)
             scale = env.job_num * env.machine_num
-            model = PPO(env, memory_size=5, batch_size=2 * scale, clip_ep=0.25)
+            model = PPO(env, memory_size=3, batch_size=1 * scale, clip_ep=0.2)
             simple_results.loc[title] = model.train(title, save_params=True)
             # simple_results.loc[title] = model.train(name, save_params=False)
             # simple_results.loc[title] = model.test(name)

@@ -4,6 +4,7 @@
 # Created on 2023.5.10
 ###########################################################################
 import os
+from threading import Thread
 
 import pandas as pd
 import wx.xrc
@@ -140,10 +141,19 @@ class SimSettingPanel(wx.Panel):
 
         show_panel.Layout()
 
-    def on_button_run(self, event):
-        print("run")
-        parameters = '--order_path ' + self.order_path
+    def thread_process(self, params):
+        print(params)
+        path = os.path.abspath(self.model_path)
+        print(path)
+        parameters = ''
+        parameters = parameters + '--order_path ' + self.order_path
+        parameters = parameters + '--model_path ' + path
         main(parameters)
+
+    def on_button_run(self, event):
+        thread01 = Thread(target=self.thread_process, args="params", name='线程1')
+        thread01.setDaemon(True)
+        thread01.start()
         # self.init_show_panel()
         # if self.check_simulation_batches.GetValue():
         #     file_path = self.text_file_path.GetLineText(0)

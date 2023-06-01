@@ -26,14 +26,26 @@ class SimulationPanel(wx.Panel):
         self.btn_setting.SetBitmap(wx.Bitmap('icon/metamodel.ico'))
         self.Bind(wx.EVT_BUTTON, self.on_button_setting, self.btn_setting)
 
-        self.btn_opt = wx.Button(calib_panel, wx.ID_ANY, u"运行",
+        self.btn_run = wx.Button(calib_panel, wx.ID_ANY, u"运行",
                                  wx.DefaultPosition, wx.DefaultSize, 0)
-        self.btn_opt.SetFont(font_button)
-        self.btn_opt.SetBitmap(wx.Bitmap('icon/optimize.ico'))
-        self.Bind(wx.EVT_BUTTON, self.on_button_opt, self.btn_opt)
+        self.btn_run.SetFont(font_button)
+        self.btn_run.SetBitmap(wx.Bitmap('icon/run.ico'))
+        self.Bind(wx.EVT_BUTTON, self.on_button_run, self.btn_run)
+
+        self.btn_suspend = wx.Button(calib_panel, wx.ID_ANY, u"暂停",
+                                 wx.DefaultPosition, wx.DefaultSize, 0)
+        self.btn_suspend.SetFont(font_button)
+        self.btn_suspend.SetBitmap(wx.Bitmap('icon/optimize.ico'))
+
+        self.btn_end = wx.Button(calib_panel, wx.ID_ANY, u"结束",
+                                 wx.DefaultPosition, wx.DefaultSize, 0)
+        self.btn_end.SetFont(font_button)
+        self.btn_end.SetBitmap(wx.Bitmap('icon/quit.ico'))
 
         tab_sizer.Add(self.btn_setting, 0, wx.ALL, 5)
-        tab_sizer.Add(self.btn_opt, 0, wx.ALL, 5)
+        tab_sizer.Add(self.btn_run, 0, wx.ALL, 5)
+        tab_sizer.Add(self.btn_suspend, 0, wx.ALL, 5)
+        tab_sizer.Add(self.btn_end, 0, wx.ALL, 5)
 
         # 下方导航树及展示界面panel
         show_panel = wx.Panel(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
@@ -77,6 +89,6 @@ class SimulationPanel(wx.Panel):
         if self.is_selected():
             self.simNotebook.show_setting_page(self.btn_setting.GetLabel(), self.order_path, self.model_path)
 
-    def on_button_opt(self, event):
+    def on_button_run(self, event):
         if self.is_selected():
             self.simNotebook.show_opt_page()

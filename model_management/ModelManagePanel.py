@@ -45,10 +45,22 @@ class ModelManagePanel(wx.Panel):
         self.btn_delete.SetBitmap(wx.Bitmap('icon/delete.ico'))
         self.Bind(wx.EVT_BUTTON, self.on_button_delete, self.btn_delete)
 
+        self.btn_import = wx.Button(calib_panel, wx.ID_ANY, u"导入",
+                                    wx.DefaultPosition, wx.DefaultSize, 0)
+        self.btn_import.SetFont(font_button)
+        self.btn_import.SetBitmap(wx.Bitmap('icon/import.ico'))
+
+        self.btn_export = wx.Button(calib_panel, wx.ID_ANY, u"导出",
+                                    wx.DefaultPosition, wx.DefaultSize, 0)
+        self.btn_export.SetFont(font_button)
+        self.btn_export.SetBitmap(wx.Bitmap('icon/select.ico'))
+
         tab_sizer.Add(self.btn_create, 0, wx.ALL, 5)
         tab_sizer.Add(self.btn_open, 0, wx.ALL, 5)
         tab_sizer.Add(self.btn_edit, 0, wx.ALL, 5)
         tab_sizer.Add(self.btn_delete, 0, wx.ALL, 5)
+        tab_sizer.Add(self.btn_import, 0, wx.ALL, 5)
+        tab_sizer.Add(self.btn_export, 0, wx.ALL, 5)
 
         # 下方导航树及展示界面panel
         show_panel = wx.Panel(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
